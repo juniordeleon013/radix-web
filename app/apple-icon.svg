@@ -1,0 +1,15 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo -->
+  <rect width="180" height="180" fill="#0E3F2E" rx="40"/>
+  
+  <!-- RADIX -->
+  <text x="90" y="85" font-family="Inter, system-ui, sans-serif" font-size="50" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">
+    RADIX
+  </text>
+  
+  <!-- FORMULATIONS -->
+  <text x="90" y="110" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="400" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">
+    FORMULATIONS
+  </text>
+</svg>
+

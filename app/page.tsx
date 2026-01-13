@@ -494,8 +494,7 @@ function LocationSection() {
                 <div>
                   <h4 className="text-xl font-bold mb-2">Horario de Atención</h4>
                   <p className="text-slate-100 text-sm leading-relaxed">
-                    Lunes a Sábado: 10:00 AM - 6:00 PM<br />
-                    Domingo: 10:00 AM - 12:00 PM
+                    Lunes a Sábado: 11:00 AM - 7:00 PM<br />
                   </p>
                 </div>
               </div>

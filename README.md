@@ -9,7 +9,6 @@ Landing page moderna y minimalista para RADIX Formulations, marca de productos d
 - **TypeScript**
 - **Tailwind CSS**
 - **Lucide React** (Iconos)
-- **Cloudinary** (Hosting de imágenes)
 
 ## 📦 Instalación
 
@@ -36,10 +35,7 @@ npm start
 - ✅ Tipografía Inter (Sans-serif)
 - ✅ Colores de marca: Verde Esmeralda (#0E3F2E)
 - ✅ Performance optimizado
-- ✅ SEO friendly con metadata completa
-- ✅ Favicon personalizado con logo RADIX
-- ✅ PWA ready (manifest incluido)
-- ✅ Open Graph y Twitter Cards configurados
+- ✅ SEO friendly
 
 ## 📱 Secciones
 

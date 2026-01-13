@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: "RADIX Formulations | Tratamientos Capilares de Grado Clínico",
   description: "Tratamientos capilares de grado clínico. Selección curada y validada científicamente. Productos 100% originales con disponibilidad inmediata.",
   keywords: "minoxidil, tratamiento capilar, kirkland, first botany, dermaroller, alopecia, caída del cabello",
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon.svg',
+  },
+  themeColor: '#0E3F2E',
 };
 
 export default function RootLayout({

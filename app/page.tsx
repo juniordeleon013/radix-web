@@ -39,7 +39,7 @@ const allProducts = [
   {
     id: 1,
     name: "Minoxidil Kirkland 5%",
-    price: "600",
+    price: "550",
     description: "El estándar de oro clínico (USP) para reactivar el folículo piloso y detener la caída. Fórmula probada y efectiva.",
     badge: "Minoxidil 5%",
     category: "producto",
@@ -76,7 +76,7 @@ const allProducts = [
   {
     id: 5,
     name: "Suministro de Solución Tópica",
-    price: "900",
+    price: "800",
     description: "Combo esencial: Minoxidil 5% + Dermaroller 0.5mm. Reactivación folicular con micro-needling para absorción óptima.",
     badge: "El mas Vendido",
     category: "tratamiento",

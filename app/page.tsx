@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ShieldCheck, Zap, Microscope, ShoppingCart } from "lucide-react";
+import { ShieldCheck, Zap, Microscope, ShoppingCart, Info, X } from "lucide-react";
 import Image from "next/image";
 
 // ==================== HOOK PARA ANIMACIONES DE SCROLL ====================
@@ -33,6 +33,157 @@ function useScrollAnimation() {
   return { ref, isVisible };
 }
 
+// ==================== MODAL COMPONENT ====================
+interface ProductModalProps {
+  product: typeof allProducts[0] | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen || !product) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+    >
+      <div 
+        className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="sticky top-0 bg-gradient-to-r from-radix-primary to-[#0a3526] text-white p-6 rounded-t-2xl">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-300"
+            aria-label="Cerrar"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <h3 className="text-2xl md:text-3xl font-bold pr-12 mb-2">{product.name}</h3>
+          <p className="text-3xl font-bold text-white">RD$ {product.price}</p>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 space-y-6">
+          {/* Image */}
+          <div className="relative h-64 md:h-80 rounded-xl overflow-hidden bg-slate-100">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <h4 className="text-lg font-bold text-radix-primary mb-2">Descripción</h4>
+            <p className="text-slate-700 leading-relaxed">{product.description}</p>
+          </div>
+
+          {/* Includes (para kits) */}
+          {product.includes && product.includes.length > 0 && (
+            <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
+              <h4 className="text-lg font-bold text-radix-primary mb-3">Este kit incluye:</h4>
+              <ul className="space-y-2">
+                {product.includes.map((item, idx) => (
+                  <li key={idx} className="flex items-start text-slate-700">
+                    <span className="text-radix-primary mr-2 mt-1">✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Detailed Info */}
+          {product.detailedInfo && (
+            <>
+              {/* Ingredients */}
+              <div>
+                <h4 className="text-lg font-bold text-radix-primary mb-2">Ingredientes Activos</h4>
+                <p className="text-slate-700 leading-relaxed">{product.detailedInfo.ingredients}</p>
+              </div>
+
+              {/* Benefits */}
+              <div>
+                <h4 className="text-lg font-bold text-radix-primary mb-3">Beneficios</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {product.detailedInfo.benefits.map((benefit, idx) => (
+                    <li key={idx} className="flex items-start text-slate-700">
+                      <span className="text-radix-primary mr-2 mt-1">✓</span>
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Usage */}
+              <div className="bg-gradient-to-br from-radix-primary/5 to-radix-primary/10 rounded-xl p-4 border border-radix-primary/20">
+                <h4 className="text-lg font-bold text-radix-primary mb-2">Modo de Uso</h4>
+                <p className="text-slate-700 leading-relaxed">{product.detailedInfo.usage}</p>
+              </div>
+
+              {/* Presentation */}
+              <div>
+                <h4 className="text-lg font-bold text-radix-primary mb-2">Presentación</h4>
+                <p className="text-slate-700">{product.detailedInfo.presentation}</p>
+              </div>
+
+              {/* Warnings */}
+              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                <h4 className="text-lg font-bold text-amber-800 mb-2">⚠️ Advertencias</h4>
+                <p className="text-amber-900 text-sm leading-relaxed">{product.detailedInfo.warnings}</p>
+              </div>
+            </>
+          )}
+
+          {/* CTA Button */}
+          <div className="pt-4 border-t border-slate-200">
+            <a
+              href={`https://wa.me/18493408364?text=${encodeURIComponent(`Hola Radix, me interesa el ${product.name}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full bg-radix-primary text-white text-center py-4 rounded-xl font-semibold hover:bg-[#0a2f22] transition-all duration-300 shadow-md hover:shadow-lg text-lg"
+            >
+              Ordenar por WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ==================== DATOS DE PRODUCTOS ====================
 const allProducts = [
   // PRODUCTOS INDIVIDUALES
@@ -44,6 +195,19 @@ const allProducts = [
     badge: "Minoxidil 5%",
     category: "producto",
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066842/Gemini_Generated_Image_rrbutvrrbutvrrbu_gv8gba.png",
+    detailedInfo: {
+      ingredients: "Minoxidil 5%, Propilenglicol, Alcohol, Agua purificada",
+      benefits: [
+        "Estimula el crecimiento capilar",
+        "Revitaliza folículos pilosos inactivos",
+        "Aumenta el grosor del cabello",
+        "Resultados visibles en 3-4 meses",
+        "Aprobado por FDA"
+      ],
+      usage: "Aplicar 1ml dos veces al día sobre cuero cabelludo seco. Masajear suavemente y dejar actuar.",
+      presentation: "Frasco de 60ml (suministro para 1 mes)",
+      warnings: "Solo para uso externo. No aplicar en cuero cabelludo irritado."
+    }
   },
   {
     id: 2,
@@ -53,6 +217,19 @@ const allProducts = [
     badge: "Solo Shampoo First Botany",
     category: "producto",
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066843/Gemini_Generated_Image_sxun9psxun9psxun_imjuhd.png",
+    detailedInfo: {
+      ingredients: "Biotina, Extracto de Saw Palmetto, Aceite de Argán, Zinc, Extracto de Romero",
+      benefits: [
+        "Fortalece el cabello desde la raíz",
+        "Bloquea DHT naturalmente",
+        "Aumenta volumen y brillo",
+        "Reduce la caída del cabello",
+        "Libre de sulfatos y parabenos"
+      ],
+      usage: "Aplicar sobre cabello húmedo, masajear suavemente el cuero cabelludo durante 2-3 minutos. Enjuagar completamente.",
+      presentation: "Botella de 500ml",
+      warnings: "Para uso externo. Evitar contacto con ojos."
+    }
   },
   {
     id: 3,
@@ -62,6 +239,20 @@ const allProducts = [
     badge: "Linea First Botany",
     category: "producto",
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066839/Gemini_Generated_Image_521l13521l13521l_gkzp6b.png",
+    detailedInfo: {
+      ingredients: "Biotina, Aceite de Argán, Extracto de Saw Palmetto, Zinc, Proteínas de Queratina, Extractos botánicos",
+      benefits: [
+        "Sistema completo 2 en 1",
+        "Máxima hidratación y nutrición",
+        "Fortalece y previene quiebres",
+        "Protección térmica natural",
+        "Cabello suave y manejable",
+        "Resultados superiores en combo"
+      ],
+      usage: "Shampoo: Aplicar, masajear y enjuagar. Acondicionador: Aplicar de medios a puntas, dejar actuar 2-3 minutos y enjuagar.",
+      presentation: "2 botellas de 500ml cada una",
+      warnings: "Para uso externo. Evitar contacto con ojos."
+    }
   },
   {
     id: 4,
@@ -71,6 +262,19 @@ const allProducts = [
     badge: "Microneedling 0.5mm",
     category: "producto",
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066846/Gemini_Generated_Image_2p3ykl2p3ykl2p3y_b1spuh.png",
+    detailedInfo: {
+      ingredients: "Acero inoxidable quirúrgico, 540 micro-agujas de 0.5mm",
+      benefits: [
+        "Aumenta absorción de tratamientos hasta 300%",
+        "Estimula producción de colágeno",
+        "Mejora circulación del cuero cabelludo",
+        "Activa factores de crecimiento",
+        "Resultados clínicamente comprobados"
+      ],
+      usage: "Usar 1-2 veces por semana sobre cuero cabelludo limpio. Rodar en 4 direcciones (horizontal, vertical, diagonal) 4-5 veces cada una. Aplicar tratamiento después.",
+      presentation: "1 Dermaroller 0.5mm con estuche protector",
+      warnings: "Desinfectar antes y después de usar. No compartir. No usar sobre cuero cabelludo irritado o con heridas."
+    }
   },
   // TRATAMIENTOS / KITS
   {
@@ -82,6 +286,19 @@ const allProducts = [
     category: "tratamiento",
     includes: ["x1 Minoxidil Kirkland 5%", "x1 Dermaroller 0.5mm"],
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066847/Gemini_Generated_Image_qhzfbmqhzfbmqhzf_fqycti.png",
+    detailedInfo: {
+      ingredients: "Combo: Minoxidil 5% + Dermaroller profesional 0.5mm",
+      benefits: [
+        "Máxima efectividad comprobada",
+        "Absorción optimizada con micro-needling",
+        "Protocolo usado por dermatólogos",
+        "Resultados acelerados",
+        "Ahorro de RD$ 150 vs compra individual"
+      ],
+      usage: "Protocolo semanal: Día 1-6: Aplicar Minoxidil 2 veces al día. Día 7: Dermaroller por la noche, esperar 24h antes de aplicar Minoxidil.",
+      presentation: "Kit completo con protocolo de uso incluido",
+      warnings: "Seguir protocolo de uso. No aplicar Minoxidil hasta pasadas 24 horas después del Dermaroller."
+    }
   },
   {
     id: 6,
@@ -91,6 +308,20 @@ const allProducts = [
     category: "tratamiento",
     includes: ["x1 Minoxidil Kirkland 5%", "x1 Dermaroller 0.5mm", "x1 Shampoo Biotina"],
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066907/KIT_SHAMPOO_crftqi.png",
+    detailedInfo: {
+      ingredients: "Sistema completo: Minoxidil 5% + Dermaroller 0.5mm + Shampoo con Biotina",
+      benefits: [
+        "Tratamiento 360° más efectivo",
+        "Ataca la caída desde múltiples ángulos",
+        "Limpieza + Estimulación + Nutrición",
+        "Resultados superiores documentados",
+        "Ahorro de RD$ 200 vs compra individual",
+        "Protocolo profesional incluido"
+      ],
+      usage: "Rutina completa: Lavar con Shampoo de Biotina 3-4 veces/semana. Aplicar Minoxidil 2 veces/día. Usar Dermaroller 1 vez/semana por la noche.",
+      presentation: "Kit completo con guía de protocolo profesional",
+      warnings: "Constancia es clave. Resultados visibles en 3-4 meses de uso continuo."
+    }
   },
   
 ];
@@ -243,75 +474,101 @@ interface ProductCardProps {
 
 function ProductCard({ product, index }: ProductCardProps) {
   const { ref, isVisible } = useScrollAnimation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const whatsappMessage = encodeURIComponent(
     `Hola Radix, me interesa el ${product.name}`
   );
   const whatsappLink = `https://wa.me/18493408364?text=${whatsappMessage}`;
 
   return (
-    <div 
-      ref={ref}
-      className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 h-full flex flex-col ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
-      {/* Image Container */}
-      <div className="relative h-64 md:h-72 overflow-hidden bg-slate-100">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-        />
-        {/* Badge */}
-        <div className="absolute top-4 right-4 bg-radix-primary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg animate-fade-in-down">
-          {product.badge}
-        </div>
-        {/* Selected by Radix Badge */}
-        <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm text-radix-primary px-3 py-1.5 rounded-full text-xs font-medium shadow-md transition-opacity duration-300">
-          Selected by Radix
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-6 flex flex-col flex-grow">
-        <h5 className="text-xl font-bold text-radix-primary mb-2 line-clamp-2 transition-colors duration-300">
-          {product.name}
-        </h5>
-        <p className="text-2xl font-bold text-slate-800 mb-3">
-          RD$ {product.price}
-        </p>
-        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
-          {product.description}
-        </p>
-
-        {/* Includes section for kits */}
-        {product.includes && product.includes.length > 0 && (
-          <div className="mb-4 bg-slate-50 rounded-lg p-3 border border-slate-200 transition-colors duration-300">
-            <p className="text-xs font-semibold text-radix-primary mb-2">Incluye:</p>
-            <ul className="text-xs text-slate-600 space-y-1">
-              {product.includes.map((item, idx) => (
-                <li key={idx} className="flex items-start">
-                  <span className="mr-2">✓</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+    <>
+      <div 
+        ref={ref}
+        className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 h-full flex flex-col ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+        style={{ transitionDelay: `${index * 100}ms` }}
+      >
+        {/* Image Container */}
+        <div className="relative h-64 md:h-72 overflow-hidden bg-slate-100">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+          />
+          {/* Badge */}
+          <div className="absolute top-4 right-4 bg-radix-primary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg animate-fade-in-down">
+            {product.badge}
           </div>
-        )}
+          {/* Selected by Radix Badge */}
+          <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm text-radix-primary px-3 py-1.5 rounded-full text-xs font-medium shadow-md transition-opacity duration-300">
+            Selected by Radix
+          </div>
+          {/* Info Button */}
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="absolute top-4 left-4 w-9 h-9 bg-white/95 backdrop-blur-sm text-radix-primary rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300 shadow-md group/info"
+            aria-label="Ver información detallada"
+          >
+            <Info className="w-5 h-5 group-hover/info:scale-110 transition-transform" />
+          </button>
+        </div>
 
-        {/* WhatsApp Button */}
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full bg-radix-primary text-white text-center py-3 rounded-xl font-semibold hover:bg-[#0a2f22] transition-all duration-300 shadow-md hover:shadow-lg mt-auto"
-        >
-          Ordenar por WhatsApp
-        </a>
+        {/* Content */}
+        <div className="p-6 flex flex-col flex-grow">
+          <h5 className="text-xl font-bold text-radix-primary mb-2 line-clamp-2 transition-colors duration-300">
+            {product.name}
+          </h5>
+          <p className="text-2xl font-bold text-slate-800 mb-3">
+            RD$ {product.price}
+          </p>
+          <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
+            {product.description}
+          </p>
+
+          {/* Includes section for kits */}
+          {product.includes && product.includes.length > 0 && (
+            <div className="mb-4 bg-slate-50 rounded-lg p-3 border border-slate-200 transition-colors duration-300">
+              <p className="text-xs font-semibold text-radix-primary mb-2">Incluye:</p>
+              <ul className="text-xs text-slate-600 space-y-1">
+                {product.includes.map((item, idx) => (
+                  <li key={idx} className="flex items-start">
+                    <span className="mr-2">✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="space-y-2 mt-auto">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="block w-full bg-slate-100 text-radix-primary text-center py-2.5 rounded-xl font-semibold hover:bg-slate-200 transition-all duration-300 border border-slate-200 hover:border-radix-primary"
+            >
+              Ver Detalles
+            </button>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full bg-radix-primary text-white text-center py-3 rounded-xl font-semibold hover:bg-[#0a2f22] transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              Ordenar por WhatsApp
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* Modal */}
+      <ProductModal 
+        product={product} 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
+    </>
   );
 }
 

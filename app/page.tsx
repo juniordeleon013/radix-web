@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ShieldCheck, Zap, Microscope, ShoppingCart, Info, X } from "lucide-react";
+import { ShieldCheck, Zap, Microscope, ShoppingCart, Info, X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 // ==================== HOOK PARA ANIMACIONES DE SCROLL ====================
@@ -41,6 +41,9 @@ interface ProductModalProps {
 }
 
 function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = product?.images && product.images.length > 0 ? product.images : product ? [product.image] : [];
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -68,7 +71,22 @@ function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
     };
   }, [isOpen, onClose]);
 
+  // Reset carousel when modal/product changes
+  useEffect(() => {
+    setCurrentImage(0);
+  }, [product?.id, isOpen]);
+
   if (!isOpen || !product) return null;
+
+  const handlePrevImage = () => {
+    if (images.length <= 1) return;
+    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const handleNextImage = () => {
+    if (images.length <= 1) return;
+    setCurrentImage((prev) => (prev + 1) % images.length);
+  };
 
   return (
     <div 
@@ -76,11 +94,11 @@ function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
       onClick={onClose}
     >
       <div 
-        className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in"
+        className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-radix-primary to-[#0a3526] text-white p-6 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-radix-primary to-[#0a3526] text-white p-6 rounded-t-2xl">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-300"
@@ -93,15 +111,49 @@ function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
-          {/* Image */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-6">
+          {/* Image Carousel */}
           <div className="relative h-64 md:h-80 rounded-xl overflow-hidden bg-slate-100">
             <Image
-              src={product.image}
-              alt={product.name}
+              src={images[currentImage]}
+              alt={`${product.name} - imagen ${currentImage + 1}`}
               fill
               className="object-cover"
             />
+
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={handlePrevImage}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 transition-colors"
+                  aria-label="Imagen anterior"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={handleNextImage}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 transition-colors"
+                  aria-label="Imagen siguiente"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                  {images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentImage(idx)}
+                      className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                        currentImage === idx ? "bg-white" : "bg-white/50"
+                      }`}
+                      aria-label={`Ver imagen ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/50 text-white text-xs font-medium">
+                  {currentImage + 1}/{images.length}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Description */}
@@ -190,11 +242,14 @@ const allProducts = [
   {
     id: 1,
     name: "Minoxidil Kirkland 5%",
-    price: "550",
+    price: "800",
     description: "El estándar de oro clínico (USP) para reactivar el folículo piloso y detener la caída. Fórmula probada y efectiva.",
     badge: "Minoxidil 5%",
     category: "producto",
-    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066842/Gemini_Generated_Image_rrbutvrrbutvrrbu_gv8gba.png",
+    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882652/WhatsApp_Image_2026-02-23_at_5.37.10_PM_uruzso.jpg",
+    images: [
+      "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882479/WhatsApp_Image_2026-02-23_at_5.29.22_PM_qpughz.jpg",
+    ],
     detailedInfo: {
       ingredients: "Minoxidil 5%, Propilenglicol, Alcohol, Agua purificada",
       benefits: [
@@ -216,7 +271,10 @@ const allProducts = [
     description: "Limpieza profunda con Biotina y extractos botánicos. Fortalece cada hebra desde la raíz y bloquea DHT naturalmente.",
     badge: "Solo Shampoo First Botany",
     category: "producto",
-    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066843/Gemini_Generated_Image_sxun9psxun9psxun_imjuhd.png",
+    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882478/WhatsApp_Image_2026-02-23_at_5.26.39_PM_vemzhg.jpg",
+    images: [
+      "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882479/WhatsApp_Image_2026-02-23_at_5.24.58_PM_ktghhc.jpg",
+    ],
     detailedInfo: {
       ingredients: "Biotina, Extracto de Saw Palmetto, Aceite de Argán, Zinc, Extracto de Romero",
       benefits: [
@@ -239,6 +297,8 @@ const allProducts = [
     badge: "Linea First Botany",
     category: "producto",
     image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066839/Gemini_Generated_Image_521l13521l13521l_gkzp6b.png",
+    images: [
+    ],
     detailedInfo: {
       ingredients: "Biotina, Aceite de Argán, Extracto de Saw Palmetto, Zinc, Proteínas de Queratina, Extractos botánicos",
       benefits: [
@@ -257,11 +317,15 @@ const allProducts = [
   {
     id: 4,
     name: "Dermaroller 0.5mm",
-    price: "400",
+    price: "700",
     description: "Herramienta profesional de micro-needling para maximizar la absorción tópica y estimular colágeno en el cuero cabelludo.",
     badge: "Microneedling 0.5mm",
     category: "producto",
-    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066846/Gemini_Generated_Image_2p3ykl2p3ykl2p3y_b1spuh.png",
+    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882479/WhatsApp_Image_2026-02-23_at_5.21.29_PM_xocuft.jpg",
+    images: [
+      "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882478/WhatsApp_Image_2026-02-23_at_5.29.44_PM_fylnqo.jpg",
+      "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882478/WhatsApp_Image_2026-02-23_at_5.26.04_PM_qhjpyz.jpg",
+    ],
     detailedInfo: {
       ingredients: "Acero inoxidable quirúrgico, 540 micro-agujas de 0.5mm",
       benefits: [
@@ -279,46 +343,49 @@ const allProducts = [
   // TRATAMIENTOS / KITS
   {
     id: 5,
-    name: "Suministro de Solución Tópica",
-    price: "800",
+    name: "Protocolo de Recuperación Capilar",
+    price: "1,450",
     description: "Combo esencial: Minoxidil 5% + Dermaroller 0.5mm. Reactivación folicular con micro-needling para absorción óptima.",
     badge: "El mas Vendido",
     category: "tratamiento",
     includes: ["x1 Minoxidil Kirkland 5%", "x1 Dermaroller 0.5mm"],
-    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066847/Gemini_Generated_Image_qhzfbmqhzfbmqhzf_fqycti.png",
+    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882479/WhatsApp_Image_2026-02-23_at_5.22.30_PM_edggz2.jpg",
+    images: [
+    ],
     detailedInfo: {
       ingredients: "Combo: Minoxidil 5% + Dermaroller profesional 0.5mm",
       benefits: [
+        "Envio Gratuito dentro de Santo Domingo este y Distrito Nacional (Los domingos)",
         "Máxima efectividad comprobada",
         "Absorción optimizada con micro-needling",
         "Protocolo usado por dermatólogos",
         "Resultados acelerados",
-        "Ahorro de RD$ 150 vs compra individual"
       ],
-      usage: "Protocolo semanal: Día 1-6: Aplicar Minoxidil 2 veces al día. Día 7: Dermaroller por la noche, esperar 24h antes de aplicar Minoxidil.",
+      usage: "Protocolo semanal: Día 1-6: Aplicar Minoxidil 2 veces al día. Día 7: Dermaroller 2 veces por semana, esperar 24h antes de aplicar Minoxidil.",
       presentation: "Kit completo con protocolo de uso incluido",
       warnings: "Seguir protocolo de uso. No aplicar Minoxidil hasta pasadas 24 horas después del Dermaroller."
     }
   },
   {
     id: 6,
-    name: "Sistema Integral de Densidad Capilar",
-    price: "1,950",
+    name: "Protocolo de Recuperación Capilar Plus",
+    price: "2,600",
     description: "Kit completo: Minoxidil 5% + Dermaroller 0.5mm + Shampoo Biotina. Máxima eficacia con protocolo integrado.",
     category: "tratamiento",
     includes: ["x1 Minoxidil Kirkland 5%", "x1 Dermaroller 0.5mm", "x1 Shampoo Biotina"],
-    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1767066907/KIT_SHAMPOO_crftqi.png",
+    image: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882480/WhatsApp_Image_2026-02-21_at_11.50.57_AM_uzsktt.jpg",
+    images: [
+    ],
     detailedInfo: {
       ingredients: "Sistema completo: Minoxidil 5% + Dermaroller 0.5mm + Shampoo con Biotina",
       benefits: [
+        "Envio Gratuito dentro de Santo Domingo este y Distrito Nacional (Los domingos)",
         "Tratamiento 360° más efectivo",
         "Ataca la caída desde múltiples ángulos",
         "Limpieza + Estimulación + Nutrición",
         "Resultados superiores documentados",
-        "Ahorro de RD$ 200 vs compra individual",
-        "Protocolo profesional incluido"
       ],
-      usage: "Rutina completa: Lavar con Shampoo de Biotina 3-4 veces/semana. Aplicar Minoxidil 2 veces/día. Usar Dermaroller 1 vez/semana por la noche.",
+      usage: "Rutina completa: Lavar con Shampoo de Biotina 3-4 veces/semana. Aplicar Minoxidil 2 veces/día. Usar Dermaroller 2 vez/semana.",
       presentation: "Kit completo con guía de protocolo profesional",
       warnings: "Constancia es clave. Resultados visibles en 3-4 meses de uso continuo."
     }
@@ -475,6 +542,7 @@ interface ProductCardProps {
 function ProductCard({ product, index }: ProductCardProps) {
   const { ref, isVisible } = useScrollAnimation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const cardImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
   const whatsappMessage = encodeURIComponent(
     `Hola Radix, me interesa el ${product.name}`
   );
@@ -492,7 +560,7 @@ function ProductCard({ product, index }: ProductCardProps) {
         {/* Image Container */}
         <div className="relative h-64 md:h-72 overflow-hidden bg-slate-100">
           <Image
-            src={product.image}
+            src={cardImage}
             alt={product.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"

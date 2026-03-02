@@ -380,16 +380,6 @@ export default function ProtocoloLanding() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <a href="#dudas" className="inline-block font-bold text-lg mb-3 hover:underline underline-offset-2">
-                FAQ
-              </a>
-              <ul className="space-y-1 text-slate-200 text-sm">
-                <li>• ¿En cuánto tiempo veo resultados?</li>
-                <li>• ¿Cómo uso el dermaroller?</li>
-                <li>• ¿Qué pasa si ya usé minoxidil?</li>
-              </ul>
-            </div>
-            <div>
               <h3 className="font-bold text-lg mb-3">Envíos</h3>
               <ul className="space-y-1 text-slate-200 text-sm">
                 <li>• Gratis en Distrito Nacional y Santo Domingo Este</li>

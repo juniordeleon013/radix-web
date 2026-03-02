@@ -5,12 +5,20 @@ import Image from "next/image";
 import { CheckCircle2, MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 
+type SocialProofCase = {
+  id: string;
+  quote: string;
+  customer: string;
+  beforeImage?: string;
+  afterImage?: string;
+};
+
 export default function ProtocoloLanding() {
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [extraMinoxidilUnits, setExtraMinoxidilUnits] = useState(0);
   const kitPrice = 1450;
-  const shampooRegularPrice = 1250;
-  const shampooOfferDiscount = 100;
+  const shampooRegularPrice = 1500;
+  const shampooOfferDiscount = 350;
   const shampooOfferPrice = shampooRegularPrice - shampooOfferDiscount;
   const shippingAverage = 350;
   const dermarollerPrice = 700;
@@ -19,6 +27,7 @@ export default function ProtocoloLanding() {
   const minoxidilExtraOfferPrice = minoxidilPrice - minoxidilExtraDiscount;
   const protocolReminderValue = 600;
   const extraMinoxidilCost = extraMinoxidilUnits * minoxidilExtraOfferPrice;
+  const extraMinoxidilRegularCost = extraMinoxidilUnits * minoxidilPrice;
   const extraMinoxidilSavings = extraMinoxidilUnits * minoxidilExtraDiscount;
   const kitCurrentTotal = kitPrice + extraMinoxidilCost;
   const comboTotal = kitCurrentTotal + shampooOfferPrice;
@@ -28,8 +37,7 @@ export default function ProtocoloLanding() {
     dermarollerPrice + minoxidilPrice + shippingAverage + protocolReminderValue;
   const totalWithoutDiscounts = baseTotalWithoutDiscounts + extraMinoxidilUnits * minoxidilPrice;
   const totalSavings = totalWithoutDiscounts - kitCurrentTotal;
-  const comboTotalWithoutDiscounts = totalWithoutDiscounts + shampooRegularPrice;
-  const comboSavingsTotal = comboTotalWithoutDiscounts - comboTotal;
+  const comboRegularSubtotal = kitPrice + extraMinoxidilRegularCost + shampooRegularPrice;
   const kitWhatsappText =
     extraMinoxidilUnits > 0
       ? `Hola Radix, quiero pedir el Kit Recuperación Capilar + ${extraMinoxidilUnits} Minoxidil adicional(es) con descuento. Total: RD$ ${kitCurrentTotal.toLocaleString()}.`
@@ -38,6 +46,29 @@ export default function ProtocoloLanding() {
     extraMinoxidilUnits > 0
       ? `Hola Radix, quiero pedir el Kit Recuperación Capilar + Shampoo Biotin + ${extraMinoxidilUnits} Minoxidil adicional(es) con descuento. Total de la oferta: RD$ ${comboTotal.toLocaleString()}.`
       : `Hola Radix, quiero pedir el Kit Recuperación Capilar + Shampoo Biotin. Total de la oferta: RD$ ${comboTotal.toLocaleString()}.`;
+  const socialProofCases: SocialProofCase[] = [
+    {
+      id: "caso-1",
+      quote: "“Llevo un mes sin fallo, y realmente estoy impresionado con el cambio que he dado, ya que yo soy una persona que no es de salir mucho bello facial.”",
+      customer: "Cliente Radix - Mes 1",
+      beforeImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772412949/WhatsApp_Image_2026-03-01_at_8.39.50_PM_pz6ric.jpg",
+      afterImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772413091/WhatsApp_Image_2026-03-01_at_8.40.02_PM_twjfms.jpg",
+    },
+    {
+      id: "caso-2",
+      quote: "“Las cejas me han crecido bastante, es lo que buscaba ya que las tenia desplobladas ahora si me gusta como me quedan.”",
+      customer: "Cliente Radix - Mes 1",
+      beforeImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772413209/WhatsApp_Image_2026-03-01_at_8.47.37_PM_sliecw.jpg",
+      afterImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772413208/WhatsApp_Image_2026-03-01_at_8.47.45_PM_lsd3iz.jpg",
+    },
+    {
+      id: "caso-3",
+      quote: "“Lo he usado el protocolo por casi 5 meses, y los resultados son notables, mi unico miedo es volver a perderlo por mi edad.”",
+      customer: "Cliente Radix - Mes 5",
+      beforeImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772413506/Screenshot_42_fkda30.png",
+      afterImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772413506/Screenshot_43_sjda8l.png",
+    },
+  ];
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -57,17 +88,20 @@ export default function ProtocoloLanding() {
           </div>
 
           <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-black">
-            <video
-              className="w-full h-[250px] sm:h-[360px] md:h-[460px] object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-              controls
-              poster="https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882479/WhatsApp_Image_2026-02-23_at_5.22.30_PM_edggz2.jpg"
-            >
-              <source src="/videos/protocolo-hero.mp4" type="video/mp4" />
-            </video>
+            <div className="mx-auto w-full max-w-[420px] md:max-w-none">
+              <video
+                className="w-full h-[72vh] max-h-[780px] md:h-[460px] object-contain md:object-cover bg-black"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+                preload="metadata"
+                poster="https://res.cloudinary.com/db1pgmsnn/image/upload/v1772409699/WhatsApp_Image_2026-03-01_at_3.56.44_PM_rooq1f.jpg"
+              >
+                <source src="https://res.cloudinary.com/db1pgmsnn/video/upload/v1772409844/Kit_de_recuperacion_capilar_ads_1_hxyhzu.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
 
           <div className="mt-8 text-center">
@@ -125,16 +159,47 @@ export default function ProtocoloLanding() {
             ¿Cómo trabaja el protocolo?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              "Minoxidil para estimular el crecimiento capilar.",
-              "Dermaroller para mejorar la absorción y activar la zona.",
-              "Constancia con protocolo guiado para mantener resultados.",
-            ].map((step, idx) => (
-              <div key={step} className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-sm font-semibold text-radix-primary uppercase">Paso {idx + 1}</p>
-                <p className="mt-3 text-slate-700">{step}</p>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <p className="text-sm font-semibold text-radix-primary uppercase">Paso 1</p>
+              <div className="mt-3 w-12 h-12 rounded-full bg-radix-primary/10 text-radix-primary flex items-center justify-center">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 4h6m-6 0v3h6V4m-7 3h8a2 2 0 012 2v9a3 3 0 01-3 3H9a3 3 0 01-3-3V9a2 2 0 012-2z" />
+                </svg>
               </div>
-            ))}
+              <p className="mt-4 text-slate-700 leading-relaxed">
+                Al aplicar el Minoxidil sobre la zona previamente estimulada, el principio activo
+                actúa directamente sobre el folículo, despertando el crecimiento y fortaleciendo la
+                fibra desde la raíz.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <p className="text-sm font-semibold text-radix-primary uppercase">Paso 2</p>
+              <div className="mt-3 w-12 h-12 rounded-full bg-radix-primary/10 text-radix-primary flex items-center justify-center">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12h16M7 8h10M7 16h10M10 5h4M10 19h4" />
+                </svg>
+              </div>
+              <p className="mt-4 text-slate-700 leading-relaxed">
+                El uso del Dermaroller realiza una activación profunda que mejora la circulación y
+                crea micro-canales de absorción, preparando el terreno para que el tratamiento
+                penetre donde realmente importa.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <p className="text-sm font-semibold text-radix-primary uppercase">Paso 3</p>
+              <div className="mt-3 w-12 h-12 rounded-full bg-radix-primary/10 text-radix-primary flex items-center justify-center">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                </svg>
+              </div>
+              <p className="mt-4 text-slate-700 leading-relaxed">
+                La clave es la disciplina. Siguiendo la guía de protocolo de forma constante,
+                aseguras que el cabello pase correctamente de vello fino a cabello terminal,
+                logrando una transformación duradera y real.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -151,7 +216,7 @@ export default function ProtocoloLanding() {
               "Aumenta la densidad en zonas despobladas.",
               "Mejora la absorción del tratamiento con dermaroller.",
               "Incluye guía de uso clara para no improvisar.",
-              "Recibe un mensaje diario de seguimiento para recordar aplicarte el protocolo (valor: RD$ 600).",
+              "Recibe un mensaje diario de seguimiento para recordar aplicarte el protocolo.",
             ].map((benefit) => (
               <div
                 key={benefit}
@@ -174,7 +239,7 @@ export default function ProtocoloLanding() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="relative min-h-[360px] md:min-h-[460px] rounded-2xl overflow-hidden border border-slate-200 shadow-xl bg-white">
               <Image
-                src="https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882479/WhatsApp_Image_2026-02-23_at_5.22.30_PM_edggz2.jpg"
+                src="https://res.cloudinary.com/db1pgmsnn/image/upload/v1772409699/WhatsApp_Image_2026-03-01_at_3.56.44_PM_rooq1f.jpg"
                 alt="Kit Recuperación Capilar"
                 fill
                 className="object-cover"
@@ -273,13 +338,37 @@ export default function ProtocoloLanding() {
           <h2 className="text-center text-3xl md:text-4xl font-bold text-radix-primary mb-10">
             Lo que dicen clientes reales
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {["“Ya veo pelusas!”", "“Cerré el hueco”", "“Llegó a tiempo”"].map((quote) => (
-              <article key={quote} className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
-                <div className="h-48 bg-slate-200 flex items-center justify-center text-slate-500 text-sm">
-                  Screenshot / Antes-Después
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {socialProofCases.map((item) => (
+              <article key={item.id} className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
+                <div className="p-4 pb-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <p className="text-xs font-semibold text-slate-500 mb-1">Antes</p>
+                      <div className="relative h-44 sm:h-48 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+                        {item.beforeImage ? (
+                          <Image src={item.beforeImage} alt={`Antes ${item.customer}`} fill className="object-cover" />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-xs text-slate-500">Foto antes</div>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-emerald-600 mb-1">Después</p>
+                      <div className="relative h-44 sm:h-48 rounded-xl overflow-hidden border border-emerald-200 bg-emerald-50">
+                        {item.afterImage ? (
+                          <Image src={item.afterImage} alt={`Despues ${item.customer}`} fill className="object-cover" />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-xs text-emerald-700">Foto después</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <p className="p-4 font-medium text-slate-800">{quote}</p>
+                <div className="px-4 pb-4">
+                  <p className="font-medium text-slate-800">{item.quote}</p>
+                  <p className="text-xs text-slate-500 mt-1">{item.customer}</p>
+                </div>
               </article>
             ))}
           </div>
@@ -352,7 +441,7 @@ export default function ProtocoloLanding() {
           onClick={() => setShowOfferModal(false)}
         >
           <div
-            className="w-full max-w-2xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden"
+            className="w-full max-w-2xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="bg-radix-primary text-white px-6 py-4 flex items-center justify-between">
@@ -366,7 +455,7 @@ export default function ProtocoloLanding() {
               </button>
             </div>
 
-            <div className="p-6 space-y-5">
+            <div className="p-6 space-y-5 overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
                 <div className="relative h-60 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
                   <Image
@@ -378,9 +467,9 @@ export default function ProtocoloLanding() {
                 </div>
                 <div>
                   <p className="text-sm uppercase text-radix-primary font-semibold">
-                    Solo por esta oferta
+                    Solo por esta oferta (opcional)
                   </p>
-                  <h4 className="text-2xl font-bold mt-1">Agrega Shampoo Biotin</h4>
+                  <h4 className="text-2xl font-bold mt-1">Agregar Shampoo Biotin (OPCIONAL)</h4>
                   <p className="text-slate-600 mt-2">
                     Complementa tu protocolo con un descuento exclusivo de cierre.
                   </p>
@@ -398,27 +487,28 @@ export default function ProtocoloLanding() {
                   <li>• Kit Recuperación Capilar: RD$ {kitPrice.toLocaleString()}</li>
                   {extraMinoxidilUnits > 0 && (
                     <li>
-                      • {extraMinoxidilUnits} Minoxidil adicional(es) con descuento: RD$ {extraMinoxidilCost.toLocaleString()}
+                      • {extraMinoxidilUnits} Minoxidil adicional(es) regular: RD$ {extraMinoxidilRegularCost.toLocaleString()}
                     </li>
                   )}
                   <li>• Shampoo Biotin (precio regular): RD$ {shampooRegularPrice.toLocaleString()}</li>
-                  <li>• Descuento de esta oferta: -RD$ {shampooOfferDiscount.toLocaleString()}</li>
+                </ul>
+                <p className="mt-3 text-sm font-semibold text-slate-900">
+                  Subtotal regular: RD$ {comboRegularSubtotal.toLocaleString()}
+                </p>
+
+                <p className="mt-3 text-sm font-semibold text-radix-primary">Descuentos aplicados hoy</p>
+                <ul className="mt-1 text-sm text-slate-700 space-y-1">
+                  <li>• Descuento Shampoo: -RD$ {shampooOfferDiscount.toLocaleString()}</li>
                   {extraMinoxidilUnits > 0 && (
                     <li>
-                      • Descuento por Minoxidil adicional: -RD$ {extraMinoxidilSavings.toLocaleString()}
+                      • Descuento Minoxidil adicional: -RD$ {extraMinoxidilSavings.toLocaleString()}
                     </li>
                   )}
                 </ul>
                 <p className="mt-2 text-sm font-semibold text-radix-primary">
                   Descuento comercial directo: -RD$ {comboDiscountTotal.toLocaleString()}
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
-                  Total sin beneficios/desc.: RD$ {comboTotalWithoutDiscounts.toLocaleString()}
-                </p>
-                <p className="mt-1 text-sm font-semibold text-radix-primary">
-                  Ahorro total aplicado: -RD$ {comboSavingsTotal.toLocaleString()}
-                </p>
-                <p className="mt-3 text-xl font-bold text-slate-900">
+                <p className="mt-3 text-xl font-bold text-slate-900 border-t border-slate-200 pt-3">
                   Total con shampoo: RD$ {comboTotal.toLocaleString()}
                 </p>
               </div>

@@ -38,7 +38,7 @@ export default function EnviosPage() {
                   <li>• Ensanche Julieta</li>
                 </ul>
 
-                <h4 className="mt-3 text-sm font-semibold text-slate-900">Zona oeste y residencial premium</h4>
+                <h4 className="mt-3 text-sm font-semibold text-slate-900">Zona oeste y residencial</h4>
                 <ul className="mt-1 text-sm text-slate-700 space-y-1">
                   <li>• Evaristo Morales</li>
                   <li>• Ensanche Quisqueya</li>

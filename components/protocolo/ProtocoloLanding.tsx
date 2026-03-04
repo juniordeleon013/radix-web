@@ -84,6 +84,9 @@ export default function ProtocoloLanding() {
             </h1>
             <p className="mt-4 text-lg sm:text-xl text-slate-700 max-w-3xl mx-auto">
               Recupera tu densidad con el Kit de Recuperación Capilar: Minoxidil + Dermaroller.
+              <span className="inline-flex ml-2 mt-2 sm:mt-0 items-center rounded-full bg-[#1A3026] text-white border border-[#1A3026] px-3 py-1 text-xs font-semibold align-middle">
+                Envío Gratis
+              </span>
             </p>
           </div>
 

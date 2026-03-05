@@ -107,6 +107,7 @@ export default function EnviosPage() {
               <li>• El envio gratuito aplica solo con pago por transferencia bancaria.</li>
               <li>• No aplica para envios contra entrega.</li>
               <li>• Los pedidos salen los domingos y se coordinan previamente por WhatsApp.</li>
+              <li>• Tambien contamos con envio express disponible con costo adicional (segun zona y horario).</li>
             </ul>
           </section>
 

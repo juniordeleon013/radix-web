@@ -128,7 +128,7 @@ export default function ProtocoloLanding() {
             {[
               {
                 q: "¿En cuánto tiempo se ven cambios?",
-                a: "Con uso correcto y constancia, normalmente se observan primeras señales entre 8 y 12 semanas (menos caída y aparición de vello fino). Los cambios más visibles en densidad suelen consolidarse entre el mes 3 y 6. La clave es mantener la rutina y no interrumpirla.",
+                a: "Con uso correcto y constancia, normalmente se observan primeras señales entre 4 y 8 semanas (menos caída y aparición de vello fino). Los cambios más visibles en densidad suelen consolidarse entre el mes 3 y 6. La clave es mantener la rutina y no interrumpirla.",
               },
               {
                 q: "¿El envío tiene costo?",

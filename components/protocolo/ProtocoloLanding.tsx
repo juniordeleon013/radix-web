@@ -140,7 +140,7 @@ export default function ProtocoloLanding() {
               },
               {
                 q: "¿El envío tiene costo?",
-                a: "Dentro del Distrito Nacional y Santo Domingo Este el envío es gratuito en zonas aplicables. Los pedidos salen los domingos y se coordinan previamente por WhatsApp. El beneficio aplica con transferencia bancaria; no aplica para envíos contra entrega.",
+                a: "Dentro del Distrito Nacional y Santo Domingo Este el envío es gratuito en zonas aplicables. Los pedidos salen los domingos y se coordinan previamente por WhatsApp. Puedes apartar sin pago previo y pagar al momento de la entrega.",
               },
             ].map((item) => (
               <article

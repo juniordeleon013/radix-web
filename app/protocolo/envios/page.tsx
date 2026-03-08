@@ -104,8 +104,8 @@ export default function EnviosPage() {
           <section className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-4">
             <h2 className="text-lg font-bold text-amber-900">Condiciones de pago y entrega</h2>
             <ul className="mt-2 text-sm text-amber-900 space-y-1">
-              <li>• El envio gratuito aplica solo con pago por transferencia bancaria.</li>
-              <li>• No aplica para envios contra entrega.</li>
+              <li>• Puedes apartar tu pedido sin pago previo.</li>
+              <li>• El pago se realiza al momento de la entrega.</li>
               <li>• Los pedidos salen los domingos y se coordinan previamente por WhatsApp.</li>
               <li>• Tambien contamos con envio express disponible con costo adicional (segun zona y horario).</li>
             </ul>

@@ -421,13 +421,11 @@ export default function ProtocoloLanding() {
 
       {/* BOTÓN FLOTANTE */}
       <a
-        href="https://wa.me/18493408364?text=Hola%20Radix,%20quiero%20informaci%C3%B3n%20del%20protocolo"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="#solucion"
         className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-3 font-semibold shadow-2xl hover:brightness-95 transition-all"
       >
         <MessageCircle className="w-5 h-5" />
-        WhatsApp
+        Ver oferta
       </a>
 
       {showOfferModal && (

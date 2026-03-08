@@ -127,21 +127,23 @@ export default function ProtocoloLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {[
               {
-                q: "¿Funciona si ya probé otros productos?",
-                a: "Sí. Muchos clientes llegan después de probar opciones sueltas sin constancia. Aquí trabajas con un protocolo estructurado: Minoxidil para estimulación diaria + Dermaroller para mejorar absorción + guía paso a paso. Esa combinación suele ser más efectiva que usar productos aislados sin un plan claro.",
-              },
-              {
                 q: "¿En cuánto tiempo se ven cambios?",
                 a: "Con uso correcto y constancia, normalmente se observan primeras señales entre 8 y 12 semanas (menos caída y aparición de vello fino). Los cambios más visibles en densidad suelen consolidarse entre el mes 3 y 6. La clave es mantener la rutina y no interrumpirla.",
-              },
-              {
-                q: "¿Es complicado usarlo?",
-                a: "No es complicado. Recibes una guía práctica con frecuencia de uso, orden recomendado y cuidados básicos para evitar errores comunes. Además, tendrás recordatorio diario por mensaje para ayudarte a cumplir el protocolo sin olvidar aplicaciones.",
               },
               {
                 q: "¿El envío tiene costo?",
                 a: "Dentro del Distrito Nacional y Santo Domingo Este el envío es gratuito en zonas aplicables. Los pedidos salen los domingos y se coordinan previamente por WhatsApp. Puedes apartar sin pago previo y pagar al momento de la entrega.",
               },
+              {
+                q: "¿Funciona si ya probé otros productos?",
+                a: "Sí. Muchos clientes llegan después de probar opciones sueltas sin constancia. Aquí trabajas con un protocolo estructurado: Minoxidil para estimulación diaria + Dermaroller para mejorar absorción + guía paso a paso. Esa combinación suele ser más efectiva que usar productos aislados sin un plan claro.",
+              },
+              
+              {
+                q: "¿Es complicado usarlo?",
+                a: "No es complicado. Recibes una guía práctica con frecuencia de uso, orden recomendado y cuidados básicos para evitar errores comunes. Además, tendrás recordatorio diario por mensaje para ayudarte a cumplir el protocolo sin olvidar aplicaciones.",
+              },
+              
             ].map((item) => (
               <article
                 key={item.q}

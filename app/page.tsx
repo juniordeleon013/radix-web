@@ -240,11 +240,6 @@ function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
 // ==================== NAVBAR COMPONENT ====================
 function Navbar() {
-  const scrollToProducts = () => {
-    const element = document.getElementById("productos");
-    element?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md transition-shadow duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -264,7 +259,9 @@ function Navbar() {
 
           {/* CTA Button */}
           <button
-            onClick={scrollToProducts}
+            onClick={() => {
+              window.location.href = "/protocolo";
+            }}
             className="bg-radix-primary text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-medium text-sm sm:text-base hover:bg-[#0a2f22] hover:scale-105 transition-all duration-300 shadow-md hover:shadow-xl animate-fade-in"
           >
             Iniciar Protocolo

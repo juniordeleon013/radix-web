@@ -46,6 +46,13 @@ export default function ProtocoloLanding() {
     extraMinoxidilUnits > 0
       ? `Hola Radix, quiero pedir el Kit Recuperación Capilar + Shampoo Biotin + ${extraMinoxidilUnits} Minoxidil adicional(es) con descuento. Total de la oferta: RD$ ${comboTotal.toLocaleString()}.`
       : `Hola Radix, quiero pedir el Kit Recuperación Capilar + Shampoo Biotin. Total de la oferta: RD$ ${comboTotal.toLocaleString()}.`;
+  const kitWhatsappUrl = `https://wa.me/18493408364?text=${encodeURIComponent(kitWhatsappText)}`;
+  const comboWhatsappUrl = `https://wa.me/18493408364?text=${encodeURIComponent(comboWhatsappText)}`;
+
+  const handleCloseModalToWhatsapp = () => {
+    setShowOfferModal(false);
+    window.open(kitWhatsappUrl, "_blank", "noopener,noreferrer");
+  };
   const socialProofCases: SocialProofCase[] = [
     {
       id: "caso-1",
@@ -431,7 +438,7 @@ export default function ProtocoloLanding() {
       {showOfferModal && (
         <div
           className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={() => setShowOfferModal(false)}
+          onClick={handleCloseModalToWhatsapp}
         >
           <div
             className="w-full max-w-2xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
@@ -440,7 +447,7 @@ export default function ProtocoloLanding() {
             <div className="bg-radix-primary text-white px-6 py-4 flex items-center justify-between">
               <h3 className="text-xl font-bold">Oferta especial antes de finalizar</h3>
               <button
-                onClick={() => setShowOfferModal(false)}
+                onClick={handleCloseModalToWhatsapp}
                 className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center"
                 aria-label="Cerrar oferta"
               >
@@ -508,7 +515,7 @@ export default function ProtocoloLanding() {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
-                  href={`https://wa.me/18493408364?text=${encodeURIComponent(comboWhatsappText)}`}
+                  href={comboWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 inline-flex justify-center items-center rounded-full bg-radix-primary text-white px-6 py-3 font-semibold hover:bg-[#0a2f22] transition-colors"
@@ -516,7 +523,7 @@ export default function ProtocoloLanding() {
                   Sí, agregar shampoo
                 </a>
                 <a
-                  href={`https://wa.me/18493408364?text=${encodeURIComponent(kitWhatsappText)}`}
+                  href={kitWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 inline-flex justify-center items-center rounded-full border border-slate-300 text-slate-700 px-6 py-3 font-semibold hover:bg-slate-100 transition-colors"

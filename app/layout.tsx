@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
@@ -10,7 +10,10 @@ export const metadata: Metadata = {
     icon: '/icon.svg',
     apple: '/apple-icon.svg',
   },
-  themeColor: '#0E3F2E',
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0E3F2E",
 };
 
 export default function RootLayout({

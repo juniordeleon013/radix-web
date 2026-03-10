@@ -25,7 +25,8 @@ export default function ProtocoloLanding() {
   const minoxidilPrice = 800;
   const minoxidilExtraDiscount = 100;
   const minoxidilExtraOfferPrice = minoxidilPrice - minoxidilExtraDiscount;
-  const protocolReminderValue = 600;
+  const protocolReminderValue = 200;
+  const personalizedAdvisoryValue = 600;
   const extraMinoxidilCost = extraMinoxidilUnits * minoxidilExtraOfferPrice;
   const extraMinoxidilRegularCost = extraMinoxidilUnits * minoxidilPrice;
   const extraMinoxidilSavings = extraMinoxidilUnits * minoxidilExtraDiscount;
@@ -34,7 +35,11 @@ export default function ProtocoloLanding() {
   const comboDiscountTotal = shampooOfferDiscount + extraMinoxidilSavings;
 
   const baseTotalWithoutDiscounts =
-    dermarollerPrice + minoxidilPrice + shippingAverage + protocolReminderValue;
+    dermarollerPrice +
+    minoxidilPrice +
+    shippingAverage +
+    protocolReminderValue +
+    personalizedAdvisoryValue;
   const totalWithoutDiscounts = baseTotalWithoutDiscounts + extraMinoxidilUnits * minoxidilPrice;
   const totalSavings = totalWithoutDiscounts - kitCurrentTotal;
   const comboRegularSubtotal = kitPrice + extraMinoxidilRegularCost + shampooRegularPrice;
@@ -90,36 +95,57 @@ export default function ProtocoloLanding() {
               ¿Caída de cabello o zonas con poca densidad?
             </h1>
             <p className="mt-4 text-lg sm:text-xl text-slate-700 max-w-3xl mx-auto">
-              Recupera tu densidad con el Kit de Recuperación Capilar: Minoxidil + Dermaroller.
-              <span className="inline-flex ml-2 mt-2 sm:mt-0 items-center rounded-full bg-[#1A3026] text-white border border-[#1A3026] px-3 py-1 text-xs font-semibold align-middle">
-                Envío Gratis
+              Recupera tu densidad con el Kit de Recuperación Capilar:{" "}
+              <strong>Minoxidil + Dermaroller.</strong>
+              <br />
+              <span className="mt-3 inline-flex items-center rounded-full bg-[#1A3026] text-white border border-[#1A3026] px-3 py-1 text-xs font-semibold">
+                Envío Gratis Paga al Recibir
               </span>
             </p>
           </div>
 
-          <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-black">
-            <div className="mx-auto w-full max-w-[420px] md:max-w-none">
-              <video
-                className="w-full h-[72vh] max-h-[780px] md:h-[460px] object-contain md:object-cover bg-black"
-                autoPlay
-                muted
-                loop
-                playsInline
-                controls
-                preload="metadata"
-                poster="https://res.cloudinary.com/db1pgmsnn/image/upload/v1772409699/WhatsApp_Image_2026-03-01_at_3.56.44_PM_rooq1f.jpg"
-              >
-                <source src="https://res.cloudinary.com/db1pgmsnn/video/upload/v1772409844/Kit_de_recuperacion_capilar_ads_1_hxyhzu.mp4" type="video/mp4" />
-              </video>
+          <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="p-6 md:p-10 flex flex-col justify-center bg-slate-50">
+                <p className="text-sm uppercase tracking-wider text-radix-primary font-semibold">
+                  ¿Para quién es este kit?
+                </p>
+                <h3 className="mt-2 text-2xl md:text-3xl font-bold text-radix-primary leading-tight">
+                  Diseñado para hombres que quieren recuperar su imagen y su confianza
+                </h3>
+                <ul className="mt-6 space-y-3 text-slate-700">
+                  {[
+                    "Hombres que quieren detener la caída.",
+                    "Hombres que desean recuperar su pelo.",
+                    "Hombres que desean crecer la barba.",
+                    "Hombres que quieren una barba más densa y uniforme.",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-radix-primary mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="relative min-h-[320px] md:min-h-[460px] bg-black">
+                <Image
+                  src="https://res.cloudinary.com/db1pgmsnn/image/upload/v1772409699/WhatsApp_Image_2026-03-01_at_3.56.44_PM_rooq1f.jpg"
+                  alt="Kit Recuperación Capilar Radix"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
 
           <div className="mt-8 text-center">
             <a
-              href="#solucion"
+              href="#producto-principal"
               className="inline-flex items-center justify-center rounded-full bg-radix-primary text-white px-7 py-3.5 font-semibold hover:bg-[#0a2f22] transition-colors"
             >
-              Quiero empezar mi recuperación
+              Quiero Empezar el Protocolo Ahora!
             </a>
           </div>
         </div>
@@ -144,11 +170,6 @@ export default function ProtocoloLanding() {
               {
                 q: "¿Funciona si ya probé otros productos?",
                 a: "Sí. Muchos clientes llegan después de probar opciones sueltas sin constancia. Aquí trabajas con un protocolo estructurado: Minoxidil para estimulación diaria + Dermaroller para mejorar absorción + guía paso a paso. Esa combinación suele ser más efectiva que usar productos aislados sin un plan claro.",
-              },
-              
-              {
-                q: "¿Es complicado usarlo?",
-                a: "No es complicado. Recibes una guía práctica con frecuencia de uso, orden recomendado y cuidados básicos para evitar errores comunes. Además, tendrás recordatorio diario por mensaje para ayudarte a cumplir el protocolo sin olvidar aplicaciones.",
               },
               
             ].map((item) => (
@@ -228,7 +249,7 @@ export default function ProtocoloLanding() {
               "Aumenta la densidad en zonas despobladas.",
               "Mejora la absorción del tratamiento con dermaroller.",
               "Incluye guía de uso clara para no improvisar.",
-              "Recibe un mensaje diario de seguimiento para recordar aplicarte el protocolo.",
+              "Asesoramiento Personalizado 24/7.",
             ].map((benefit) => (
               <div
                 key={benefit}
@@ -259,15 +280,17 @@ export default function ProtocoloLanding() {
             </div>
             <div className="rounded-2xl bg-white border border-slate-200 p-7 md:p-9 shadow-sm">
               <p className="text-sm uppercase tracking-wider text-radix-primary font-semibold mb-2">Producto principal</p>
-              <h3 className="text-3xl font-bold text-radix-primary">Kit Recuperación Capilar</h3>
+              <h3 id="producto-principal" className="scroll-mt-24 text-3xl font-bold text-radix-primary">
+                Kit Recuperación Capilar
+              </h3>
               <ul className="mt-6 space-y-3 text-slate-700">
-                <li className="flex flex-wrap items-center gap-2">
+                <li className="flex items-center gap-2">
                   <span>• x1 Minoxidil Kirkland</span>
                   <button
                     onClick={() => setExtraMinoxidilUnits((prev) => prev + 1)}
-                    className="text-xs rounded-full border border-radix-primary px-2.5 py-1 text-radix-primary hover:bg-radix-primary/5 transition-colors"
+                    className="shrink-0 text-xs rounded-full bg-radix-primary text-white px-2.5 py-1 font-semibold hover:bg-[#0a2f22] transition-colors"
                   >
-                    + pedir más (descuento)
+                    + Añadir más
                   </button>
                 </li>
                 {extraMinoxidilUnits > 0 && (
@@ -283,6 +306,7 @@ export default function ProtocoloLanding() {
                 )}
                 <li>• x1 Dermaroller Premium</li>
                 <li>• x1 Guía de protocolo Radix</li>
+                <li>• Asesoriamiento personalizado</li>
               </ul>
 
               <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
@@ -318,6 +342,7 @@ export default function ProtocoloLanding() {
                   )}
                   <li>• Envío promedio: RD$ {shippingAverage.toLocaleString()}</li>
                   <li>• Recordatorio diario por mensaje: RD$ {protocolReminderValue.toLocaleString()}</li>
+                  <li>• Asesoriamiento personalizado: RD$ {personalizedAdvisoryValue.toLocaleString()}</li>
                   <li>• Guía de uso Radix: Incluida sin costo</li>
                 </ul>
                 <p className="mt-3 text-base font-bold text-slate-900">
@@ -428,7 +453,7 @@ export default function ProtocoloLanding() {
 
       {/* BOTÓN FLOTANTE */}
       <a
-        href="#solucion"
+        href="#producto-principal"
         className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-3 font-semibold shadow-2xl hover:brightness-95 transition-all"
       >
         <MessageCircle className="w-5 h-5" />

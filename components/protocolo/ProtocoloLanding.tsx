@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { CheckCircle2, MessageCircle, X } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle2, ChevronLeft, ChevronRight, MessageCircle, ShoppingCart, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type SocialProofCase = {
   id: string;
@@ -16,6 +16,7 @@ type SocialProofCase = {
 export default function ProtocoloLanding() {
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [extraMinoxidilUnits, setExtraMinoxidilUnits] = useState(0);
+  const [activeHeroItem, setActiveHeroItem] = useState(0);
   const kitPrice = 1450;
   const shampooRegularPrice = 1500;
   const shampooOfferDiscount = 350;
@@ -81,22 +82,58 @@ export default function ProtocoloLanding() {
       afterImage: "https://res.cloudinary.com/db1pgmsnn/image/upload/v1772413506/Screenshot_43_sjda8l.png",
     },
   ];
+  const heroItems = [
+    "Productos 100% original y sellados.",
+    "Envío totalmente gratis.",
+    "Oferta por tiempo limitado.",
+  ];
+  const handlePrevHeroItem = () => {
+    setActiveHeroItem((prev) => (prev - 1 + heroItems.length) % heroItems.length);
+  };
+  const handleNextHeroItem = () => {
+    setActiveHeroItem((prev) => (prev + 1) % heroItems.length);
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveHeroItem((prev) => (prev + 1) % heroItems.length);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [heroItems.length]);
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white pb-20">
       {/* HERO */}
-      <section className="bg-white text-slate-900 py-14 md:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="inline-flex rounded-full border border-radix-primary/30 text-radix-primary px-3 py-1 text-xs tracking-wide uppercase mb-6">
-              Protocolo Oficial Radix
+      <section className="bg-white text-slate-900">
+        <div className="w-full border-b border-[#0f221a] bg-[#1A3026]">
+          <div className="relative flex h-12 items-center justify-center px-12">
+            <button
+              onClick={handlePrevHeroItem}
+              aria-label="Item anterior"
+              className="absolute left-3 inline-flex h-8 w-8 items-center justify-center text-white/90 hover:text-white transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <p className="text-center text-sm font-semibold text-white">
+              {heroItems[activeHeroItem]}
             </p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-radix-primary">
-              ¿Caída de cabello o zonas con poca densidad?
+            <button
+              onClick={handleNextHeroItem}
+              aria-label="Siguiente item"
+              className="absolute right-3 inline-flex h-8 w-8 items-center justify-center text-white/90 hover:text-white transition-colors"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-radix-primary">
+              ¿Caída de cabello, zonas con poca densidad o no te crece la Barba?
             </h1>
             <p className="mt-4 text-lg sm:text-xl text-slate-700 max-w-3xl mx-auto">
-              Recupera tu densidad con el Kit de Recuperación Capilar:{" "}
-              <strong>Minoxidil + Dermaroller.</strong>
+              Activa tu crecimiento con el protocolo de recuperación capilar más eficaz del mercado:{" "}
+              <strong>Minoxidil + Dermaroller.</strong> Ciencia y naturaleza desde la raíz.
               <br />
               <span className="mt-3 inline-flex items-center rounded-full bg-[#1A3026] text-white border border-[#1A3026] px-3 py-1 text-xs font-semibold">
                 Envío Gratis Paga al Recibir
@@ -189,7 +226,7 @@ export default function ProtocoloLanding() {
       <section className="bg-slate-100 text-slate-900 py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-3xl md:text-4xl font-bold text-radix-primary mb-10">
-            ¿Cómo trabaja el protocolo?
+            ¿Por qué este protocolo sí da resultados?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -200,9 +237,9 @@ export default function ProtocoloLanding() {
                 </svg>
               </div>
               <p className="mt-4 text-slate-700 leading-relaxed">
-                Al aplicar el Minoxidil sobre la zona previamente estimulada, el principio activo
-                actúa directamente sobre el folículo, despertando el crecimiento y fortaleciendo la
-                fibra desde la raíz.
+                Funciona porque el Minoxidil actúa sobre folículos debilitados y prolonga su fase de
+                crecimiento. Eso se traduce en menos caída progresiva y en la aparición de nuevo
+                vello donde antes había baja densidad.
               </p>
             </div>
 
@@ -214,9 +251,9 @@ export default function ProtocoloLanding() {
                 </svg>
               </div>
               <p className="mt-4 text-slate-700 leading-relaxed">
-                El uso del Dermaroller realiza una activación profunda que mejora la circulación y
-                crea micro-canales de absorción, preparando el terreno para que el tratamiento
-                penetre donde realmente importa.
+                Funciona porque el Dermaroller mejora la microcirculación y crea microcanales de
+                absorción. Así, el activo penetra mejor y llega donde debe trabajar, aumentando la
+                efectividad real del protocolo frente a usar solo un producto aislado.
               </p>
             </div>
 
@@ -228,9 +265,9 @@ export default function ProtocoloLanding() {
                 </svg>
               </div>
               <p className="mt-4 text-slate-700 leading-relaxed">
-                La clave es la disciplina. Siguiendo la guía de protocolo de forma constante,
-                aseguras que el cabello pase correctamente de vello fino a cabello terminal,
-                logrando una transformación duradera y real.
+                Funciona porque hay método y seguimiento: una guía clara + aplicación constante.
+                Esa combinación evita errores comunes, acelera la transición de vello fino a cabello
+                terminal y hace que los resultados sean más estables en el tiempo.
               </p>
             </div>
           </div>
@@ -362,7 +399,8 @@ export default function ProtocoloLanding() {
                 onClick={() => setShowOfferModal(true)}
                 className="mt-6 inline-flex w-full md:w-auto justify-center items-center rounded-full bg-radix-primary text-white px-7 py-3 font-semibold hover:bg-[#0a2f22] transition-colors"
               >
-                Quiero este pedido
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Ordenar y Paga al recibir
               </button>
             </div>
           </div>
@@ -451,13 +489,13 @@ export default function ProtocoloLanding() {
         </div>
       </footer>
 
-      {/* BOTÓN FLOTANTE */}
+      {/* BARRA CTA FIJA */}
       <a
         href="#producto-principal"
-        className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-3 font-semibold shadow-2xl hover:brightness-95 transition-all"
+        className="fixed bottom-0 left-0 right-0 z-50 inline-flex w-full items-center justify-center gap-2 rounded-none bg-radix-primary text-white px-6 py-4 font-semibold shadow-2xl hover:bg-[#0a2f22] transition-colors"
       >
-        <MessageCircle className="w-5 h-5" />
-        Ver oferta
+        <ShoppingCart className="w-5 h-5" />
+        Ordenar y Paga al recibir
       </a>
 
       {showOfferModal && (

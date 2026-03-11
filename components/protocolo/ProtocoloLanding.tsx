@@ -13,10 +13,44 @@ type SocialProofCase = {
   afterImage?: string;
 };
 
+const provinceCityOptions: Record<string, string[]> = {
+  "Distrito Nacional": [
+    "Naco",
+    "Piantini",
+    "Serralles",
+    "Paraiso",
+    "Ensanche Julieta",
+    "Bella Vista",
+    "Los Cacicazgos",
+    "Mirador Sur",
+    "Gazcue",
+    "Ciudad Colonial",
+  ],
+  "Santo Domingo": [
+    "Santo Domingo Este",
+    "Santo Domingo Norte",
+    "Santo Domingo Oeste",
+    "Boca Chica",
+    "Los Alcarrizos",
+    "San Antonio de Guerra",
+  ],
+  Santiago: ["Santiago de los Caballeros", "Licey al Medio", "Tamboril", "Villa Gonzalez"],
+  "San Cristobal": ["San Cristobal", "Bajos de Haina", "Nigua", "Yaguate"],
+  "La Vega": ["La Vega", "Jarabacoa", "Constanza", "Jima Abajo"],
+};
+
 export default function ProtocoloLanding() {
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [extraMinoxidilUnits, setExtraMinoxidilUnits] = useState(0);
   const [activeHeroItem, setActiveHeroItem] = useState(0);
+  const [shippingOption, setShippingOption] = useState<"gratis" | "express">("gratis");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
+  const [referencePoint, setReferencePoint] = useState("");
+  const [includeShampooUpsell, setIncludeShampooUpsell] = useState(false);
   const kitPrice = 1450;
   const shampooRegularPrice = 1500;
   const shampooOfferDiscount = 350;
@@ -43,21 +77,32 @@ export default function ProtocoloLanding() {
     personalizedAdvisoryValue;
   const totalWithoutDiscounts = baseTotalWithoutDiscounts + extraMinoxidilUnits * minoxidilPrice;
   const totalSavings = totalWithoutDiscounts - kitCurrentTotal;
-  const comboRegularSubtotal = kitPrice + extraMinoxidilRegularCost + shampooRegularPrice;
-  const kitWhatsappText =
-    extraMinoxidilUnits > 0
-      ? `Hola Radix, quiero pedir el Kit Recuperación Capilar + ${extraMinoxidilUnits} Minoxidil adicional(es) con descuento. Total: RD$ ${kitCurrentTotal.toLocaleString()}.`
-      : "Hola Radix, quiero pedir el Kit Recuperación Capilar (Minoxidil + Dermaroller).";
-  const comboWhatsappText =
-    extraMinoxidilUnits > 0
-      ? `Hola Radix, quiero pedir el Kit Recuperación Capilar + Shampoo Biotin + ${extraMinoxidilUnits} Minoxidil adicional(es) con descuento. Total de la oferta: RD$ ${comboTotal.toLocaleString()}.`
-      : `Hola Radix, quiero pedir el Kit Recuperación Capilar + Shampoo Biotin. Total de la oferta: RD$ ${comboTotal.toLocaleString()}.`;
-  const kitWhatsappUrl = `https://wa.me/18493408364?text=${encodeURIComponent(kitWhatsappText)}`;
-  const comboWhatsappUrl = `https://wa.me/18493408364?text=${encodeURIComponent(comboWhatsappText)}`;
-
-  const handleCloseModalToWhatsapp = () => {
+  const orderTotal = kitCurrentTotal + (includeShampooUpsell ? shampooRegularPrice : 0);
+  const modalSubtotalWithoutDiscount = orderTotal + totalSavings;
+  const availableCities = province ? provinceCityOptions[province] ?? [] : [];
+  const isCheckoutDataValid = Boolean(fullName && phone && address && province && city);
+  const handleCloseModal = () => {
     setShowOfferModal(false);
-    window.open(kitWhatsappUrl, "_blank", "noopener,noreferrer");
+  };
+  const handleCompletePurchase = () => {
+    if (!isCheckoutDataValid) return;
+    const kitName = "Kit Recuperacion Capilar";
+    const upsellText = includeShampooUpsell ? " - Shampoo Biotin" : "";
+    const message = `Hola,
+Mi nombre es ${fullName}.
+
+He realizado un pedido de ${kitName}${upsellText} en su tienda por un valor de RD$ ${orderTotal.toLocaleString()}.
+
+Mis datos de entrega son:
+Direccion: ${address}
+Ciudad: ${city}
+Provincia: ${province}
+Referencia: ${referencePoint || "No aplica"}
+Telefono WhatsApp: ${phone}
+Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (costo adicional segun zona)"}`;
+
+    const url = `https://wa.me/18493408364?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
   const socialProofCases: SocialProofCase[] = [
     {
@@ -501,16 +546,16 @@ export default function ProtocoloLanding() {
       {showOfferModal && (
         <div
           className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={handleCloseModalToWhatsapp}
+          onClick={handleCloseModal}
         >
           <div
-            className="w-full max-w-2xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            className="w-full max-w-xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="bg-radix-primary text-white px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold">Oferta especial antes de finalizar</h3>
+              <h3 className="text-xl font-bold">Completa tu pedido</h3>
               <button
-                onClick={handleCloseModalToWhatsapp}
+                onClick={handleCloseModal}
                 className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center"
                 aria-label="Cerrar oferta"
               >
@@ -519,8 +564,190 @@ export default function ProtocoloLanding() {
             </div>
 
             <div className="p-6 space-y-5 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
-                <div className="relative h-60 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+              <div className="rounded-xl border border-red-300 p-4 bg-[#fff8f6]">
+                <div className="flex items-center gap-3">
+                  <div className="relative h-16 w-16 shrink-0 rounded-lg overflow-hidden border border-slate-200 bg-white">
+                    <Image
+                      src="https://res.cloudinary.com/db1pgmsnn/image/upload/v1772409699/WhatsApp_Image_2026-03-01_at_3.56.44_PM_rooq1f.jpg"
+                      alt="Kit Recuperacion Capilar"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-slate-900">Kit Recuperacion Capilar</p>
+                    {includeShampooUpsell && (
+                      <p className="text-sm text-slate-600">+ Shampoo Biotin</p>
+                    )}
+                  </div>
+                  <p className="font-bold text-lg text-slate-900">RD$ {orderTotal.toLocaleString()}</p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="font-semibold text-slate-900">Resumen</p>
+                <div className="mt-2 space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span className="font-semibold">RD$ {modalSubtotalWithoutDiscount.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Descuento</span>
+                    <span className="font-semibold text-radix-primary">
+                      -RD$ {totalSavings.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex items-start justify-between">
+                    <span>Envío</span>
+                    <span className="ml-6 max-w-[210px] text-right font-semibold leading-snug">
+                      {shippingOption === "gratis"
+                        ? "Gratis"
+                        : "Express (costo adicional segun zona)"}
+                    </span>
+                  </div>
+                  <div className="border-t border-slate-200 pt-2 mt-2 flex justify-between text-base font-bold">
+                    <span>Total</span>
+                    <span>
+                      {shippingOption === "gratis"
+                        ? `RD$ ${orderTotal.toLocaleString()}`
+                        : `RD$ ${orderTotal.toLocaleString()} + envio`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="font-bold text-lg text-slate-900 mb-3">Opciones de envio</p>
+                <div className="space-y-2">
+                  <label className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="shipping-option"
+                        checked={shippingOption === "gratis"}
+                        onChange={() => setShippingOption("gratis")}
+                      />
+                      <span>Envio gratis</span>
+                    </div>
+                    <span className="font-bold">Gratis</span>
+                  </label>
+                  <label className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="shipping-option"
+                        checked={shippingOption === "express"}
+                        onChange={() => setShippingOption("express")}
+                      />
+                      <span>Envio express</span>
+                    </div>
+                    <span className="font-bold text-sm">Costo adicional</span>
+                  </label>
+                  {shippingOption === "express" && (
+                    <p className="text-xs text-slate-500">
+                      * El envio express tiene costo adicional (segun zona).
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="text-sm font-semibold text-slate-800">Nombre Completo*</label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30"
+                    placeholder="Ej: Juan Perez"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-slate-800">Telefono con WhatsApp*</label>
+                  <input
+                    type="text"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30"
+                    placeholder="Telefono con WhatsApp"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-slate-800">Direccion*</label>
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30"
+                    placeholder="Direccion"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-sm font-semibold text-slate-800">Provincia*</label>
+                    <select
+                      value={province}
+                      onChange={(e) => {
+                        setProvince(e.target.value);
+                        setCity("");
+                      }}
+                      className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30 bg-white"
+                    >
+                      <option value="">Selecciona provincia</option>
+                      {Object.keys(provinceCityOptions).map((provinceItem) => (
+                        <option key={provinceItem} value={provinceItem}>
+                          {provinceItem}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-slate-800">Ciudad*</label>
+                    <select
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      disabled={!province}
+                      className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30 bg-white disabled:bg-slate-100"
+                    >
+                      <option value="">
+                        {province ? "Selecciona ciudad" : "Selecciona provincia primero"}
+                      </option>
+                      {availableCities.map((cityItem) => (
+                        <option key={cityItem} value={cityItem}>
+                          {cityItem}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-slate-800">Punto de referencia</label>
+                  <input
+                    type="text"
+                    value={referencePoint}
+                    onChange={(e) => setReferencePoint(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30"
+                    placeholder="Ej: En la esquina, casa azul"
+                  />
+                </div>
+              </div>
+
+              <label className="flex items-center gap-3 rounded-xl border-2 border-dashed border-rose-300 bg-rose-50 p-4 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={includeShampooUpsell}
+                  onChange={(e) => setIncludeShampooUpsell(e.target.checked)}
+                  className="h-5 w-5"
+                />
+                <div className="flex-1">
+                  <p className="font-semibold text-slate-900">Anade Shampoo Biotin</p>
+                  <p className="text-sm text-slate-700">por RD$ 1,500 adicionales</p>
+                </div>
+                <div className="relative h-14 w-14 rounded-md overflow-hidden border border-slate-200 bg-white">
                   <Image
                     src="https://res.cloudinary.com/db1pgmsnn/image/upload/v1771882478/WhatsApp_Image_2026-02-23_at_5.26.39_PM_vemzhg.jpg"
                     alt="Shampoo Biotin"
@@ -528,71 +755,26 @@ export default function ProtocoloLanding() {
                     className="object-cover"
                   />
                 </div>
-                <div>
-                  <p className="text-sm uppercase text-radix-primary font-semibold">
-                    Solo por esta oferta (opcional)
-                  </p>
-                  <h4 className="text-2xl font-bold mt-1">Agregar Shampoo Biotin (OPCIONAL)</h4>
-                  <p className="text-slate-600 mt-2">
-                    Complementa tu protocolo con un descuento exclusivo de cierre.
-                  </p>
-                  <ul className="mt-3 text-sm text-slate-700 space-y-1">
-                    <li>• Fortalece la hebra capilar</li>
-                    <li>• Limpieza profunda sin maltratar</li>
-                    <li>• Apoyo ideal para mantenimiento</li>
-                  </ul>
-                </div>
-              </div>
+              </label>
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="font-bold text-radix-primary">Desglose del total con oferta</p>
-                <ul className="mt-2 text-sm text-slate-700 space-y-1">
-                  <li>• Kit Recuperación Capilar: RD$ {kitPrice.toLocaleString()}</li>
-                  {extraMinoxidilUnits > 0 && (
-                    <li>
-                      • {extraMinoxidilUnits} Minoxidil adicional(es) regular: RD$ {extraMinoxidilRegularCost.toLocaleString()}
-                    </li>
-                  )}
-                  <li>• Shampoo Biotin (precio regular): RD$ {shampooRegularPrice.toLocaleString()}</li>
-                </ul>
-                <p className="mt-3 text-sm font-semibold text-slate-900">
-                  Subtotal regular: RD$ {comboRegularSubtotal.toLocaleString()}
-                </p>
-
-                <p className="mt-3 text-sm font-semibold text-radix-primary">Descuentos aplicados hoy</p>
-                <ul className="mt-1 text-sm text-slate-700 space-y-1">
-                  <li>• Descuento Shampoo: -RD$ {shampooOfferDiscount.toLocaleString()}</li>
-                  {extraMinoxidilUnits > 0 && (
-                    <li>
-                      • Descuento Minoxidil adicional: -RD$ {extraMinoxidilSavings.toLocaleString()}
-                    </li>
-                  )}
-                </ul>
-                <p className="mt-2 text-sm font-semibold text-radix-primary">
-                  Descuento comercial directo: -RD$ {comboDiscountTotal.toLocaleString()}
-                </p>
-                <p className="mt-3 text-xl font-bold text-slate-900 border-t border-slate-200 pt-3">
-                  Total con shampoo: RD$ {comboTotal.toLocaleString()}
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a
-                  href={comboWhatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex justify-center items-center rounded-full bg-radix-primary text-white px-6 py-3 font-semibold hover:bg-[#0a2f22] transition-colors"
+              <div>
+                <button
+                  onClick={handleCompletePurchase}
+                  disabled={!isCheckoutDataValid}
+                  className="w-full flex flex-col justify-center items-center rounded-md bg-black text-white px-6 py-3.5 font-semibold hover:bg-slate-900 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Sí, agregar shampoo
-                </a>
-                <a
-                  href={kitWhatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex justify-center items-center rounded-full border border-slate-300 text-slate-700 px-6 py-3 font-semibold hover:bg-slate-100 transition-colors"
-                >
-                  Continuar solo con kit
-                </a>
+                  <span className="inline-flex items-center gap-2">
+                    <ShoppingCart className="w-5 h-5" />
+                    Completa tu compra
+                  </span>
+                  <span className="mt-1 text-[11px] font-medium text-white/85">
+                    Total a pagar:{" "}
+                    {shippingOption === "gratis"
+                      ? `RD$ ${orderTotal.toLocaleString()}`
+                      : `RD$ ${orderTotal.toLocaleString()} + envio`}
+                  </span>
+                </button>
+                <p className="mt-1 text-center text-[11px] text-slate-500">Paga al Recibir</p>
               </div>
             </div>
           </div>

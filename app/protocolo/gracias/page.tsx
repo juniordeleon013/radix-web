@@ -1,11 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ShoppingCart, ShieldCheck, Truck } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 
 export default function ProtocoloGraciasPage() {
-  const searchParams = useSearchParams();
-  const total = Number(searchParams.get("total") ?? "0");
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const parsedTotal = Number(params.get("total") ?? "0");
+    setTotal(Number.isFinite(parsedTotal) ? parsedTotal : 0);
+  }, []);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 py-10 md:py-16">

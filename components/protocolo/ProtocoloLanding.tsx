@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle2, ChevronLeft, ChevronRight, MessageCircle, ShoppingCart, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import rdLocations from "@/lib/data/rd-locations.json";
 
 type SocialProofCase = {
   id: string;
@@ -11,32 +12,6 @@ type SocialProofCase = {
   customer: string;
   beforeImage?: string;
   afterImage?: string;
-};
-
-const provinceCityOptions: Record<string, string[]> = {
-  "Distrito Nacional": [
-    "Naco",
-    "Piantini",
-    "Serralles",
-    "Paraiso",
-    "Ensanche Julieta",
-    "Bella Vista",
-    "Los Cacicazgos",
-    "Mirador Sur",
-    "Gazcue",
-    "Ciudad Colonial",
-  ],
-  "Santo Domingo": [
-    "Santo Domingo Este",
-    "Santo Domingo Norte",
-    "Santo Domingo Oeste",
-    "Boca Chica",
-    "Los Alcarrizos",
-    "San Antonio de Guerra",
-  ],
-  Santiago: ["Santiago de los Caballeros", "Licey al Medio", "Tamboril", "Villa Gonzalez"],
-  "San Cristobal": ["San Cristobal", "Bajos de Haina", "Nigua", "Yaguate"],
-  "La Vega": ["La Vega", "Jarabacoa", "Constanza", "Jima Abajo"],
 };
 
 export default function ProtocoloLanding() {
@@ -49,6 +24,7 @@ export default function ProtocoloLanding() {
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
+  const [sector, setSector] = useState("");
   const [referencePoint, setReferencePoint] = useState("");
   const [includeShampooUpsell, setIncludeShampooUpsell] = useState(false);
   const kitPrice = 1450;
@@ -79,8 +55,11 @@ export default function ProtocoloLanding() {
   const totalSavings = totalWithoutDiscounts - kitCurrentTotal;
   const orderTotal = kitCurrentTotal + (includeShampooUpsell ? shampooRegularPrice : 0);
   const modalSubtotalWithoutDiscount = orderTotal + totalSavings;
-  const availableCities = province ? provinceCityOptions[province] ?? [] : [];
-  const isCheckoutDataValid = Boolean(fullName && phone && address && province && city);
+  const selectedProvinceData = rdLocations.provinces.find((item) => item.name === province);
+  const availableCities = selectedProvinceData?.cities ?? [];
+  const selectedCityData = availableCities.find((item) => item.name === city);
+  const availableSectors = selectedCityData?.sectors ?? [];
+  const isCheckoutDataValid = Boolean(fullName && phone && address && province && city && sector);
   const handleCloseModal = () => {
     setShowOfferModal(false);
   };
@@ -98,11 +77,17 @@ Direccion: ${address}
 Ciudad: ${city}
 Provincia: ${province}
 Referencia: ${referencePoint || "No aplica"}
+Sector: ${sector}
 Telefono WhatsApp: ${phone}
 Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (costo adicional segun zona)"}`;
 
-    const url = `https://wa.me/18493408364?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    const waUrl = `https://wa.me/18493408364?text=${encodeURIComponent(message)}`;
+    const thankYouUrl = `/protocolo/gracias?wa=${encodeURIComponent(
+      waUrl
+    )}&total=${encodeURIComponent(orderTotal.toString())}`;
+    setShowOfferModal(false);
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+    window.location.href = thankYouUrl;
   };
   const socialProofCases: SocialProofCase[] = [
     {
@@ -672,6 +657,10 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                     className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30"
                     placeholder="Telefono con WhatsApp"
                   />
+                  <p className="mt-1 text-[11px] font-semibold text-rose-600">
+                    Importante: Asegurate de que tu numero este correcto y tenga WhatsApp para poder
+                    contactarte para la entrega.
+                  </p>
                 </div>
 
                 <div>
@@ -693,13 +682,14 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                       onChange={(e) => {
                         setProvince(e.target.value);
                         setCity("");
+                        setSector("");
                       }}
                       className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30 bg-white"
                     >
                       <option value="">Selecciona provincia</option>
-                      {Object.keys(provinceCityOptions).map((provinceItem) => (
-                        <option key={provinceItem} value={provinceItem}>
-                          {provinceItem}
+                      {rdLocations.provinces.map((provinceItem) => (
+                        <option key={provinceItem.name} value={provinceItem.name}>
+                          {provinceItem.name}
                         </option>
                       ))}
                     </select>
@@ -708,7 +698,10 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                     <label className="text-sm font-semibold text-slate-800">Ciudad*</label>
                     <select
                       value={city}
-                      onChange={(e) => setCity(e.target.value)}
+                      onChange={(e) => {
+                        setCity(e.target.value);
+                        setSector("");
+                      }}
                       disabled={!province}
                       className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30 bg-white disabled:bg-slate-100"
                     >
@@ -716,12 +709,31 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                         {province ? "Selecciona ciudad" : "Selecciona provincia primero"}
                       </option>
                       {availableCities.map((cityItem) => (
-                        <option key={cityItem} value={cityItem}>
-                          {cityItem}
+                        <option key={cityItem.name} value={cityItem.name}>
+                          {cityItem.name}
                         </option>
                       ))}
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-slate-800">Sector*</label>
+                  <select
+                    value={sector}
+                    onChange={(e) => setSector(e.target.value)}
+                    disabled={!city}
+                    className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-radix-primary/30 bg-white disabled:bg-slate-100"
+                  >
+                    <option value="">
+                      {city ? "Selecciona sector" : "Selecciona ciudad primero"}
+                    </option>
+                    {availableSectors.map((sectorItem) => (
+                      <option key={sectorItem} value={sectorItem}>
+                        {sectorItem}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>

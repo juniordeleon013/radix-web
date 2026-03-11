@@ -1,0 +1,444 @@
+{
+  "provinces": [
+    {
+      "name": "Distrito Nacional",
+      "cities": [
+        {
+          "name": "Santo Domingo de Guzman",
+          "sectors": ["Naco", "Piantini", "Serralles", "Bella Vista", "Gazcue", "Ensanche Julieta"]
+        }
+      ]
+    },
+    {
+      "name": "Santo Domingo",
+      "cities": [
+        {
+          "name": "Santo Domingo Este",
+          "sectors": ["Ensanche Ozama", "Alma Rosa I", "Alma Rosa II", "Los Mameyes", "Lucerna", "Cancino"]
+        },
+        {
+          "name": "Santo Domingo Norte",
+          "sectors": ["Villa Mella", "Sabana Perdida", "Los Guaricanos", "El Higüero"]
+        },
+        {
+          "name": "Santo Domingo Oeste",
+          "sectors": ["Herrera", "Las Caobas", "Buenos Aires de Herrera", "Manoguayabo"]
+        },
+        {
+          "name": "Boca Chica",
+          "sectors": ["Andres", "La Caleta", "Valiente", "Boca Chica Centro"]
+        },
+        {
+          "name": "Los Alcarrizos",
+          "sectors": ["Pantoja", "Savica", "Nuevo Amanecer", "Los Americanos"]
+        }
+      ]
+    },
+    {
+      "name": "Santiago",
+      "cities": [
+        {
+          "name": "Santiago de los Caballeros",
+          "sectors": ["Los Jardines", "Cerros de Gurabo", "Villa Olga", "Pontezuela", "Pekín", "Cienfuegos"]
+        },
+        {
+          "name": "Tamboril",
+          "sectors": ["Centro", "Licey", "Amaceyes", "Batey Uno"]
+        },
+        {
+          "name": "Villa Gonzalez",
+          "sectors": ["Centro", "La Delgada", "Palmar Arriba", "Banegas"]
+        }
+      ]
+    },
+    {
+      "name": "Puerto Plata",
+      "cities": [
+        {
+          "name": "San Felipe de Puerto Plata",
+          "sectors": ["Ensanche Dubocq", "Costambar", "Padre Granero", "Los Dominguez", "Cofresi"]
+        },
+        {
+          "name": "Sosua",
+          "sectors": ["El Batey", "Los Charamicos", "Maranatha", "La Mulata"]
+        },
+        {
+          "name": "Cabarete",
+          "sectors": ["Centro", "Islabon", "La Cienaga", "ProCab"]
+        }
+      ]
+    },
+    {
+      "name": "La Vega",
+      "cities": [
+        {
+          "name": "La Vega",
+          "sectors": ["Centro", "Palmarito", "Villa Rosa", "La Carmelita", "Pontón"]
+        },
+        {
+          "name": "Jarabacoa",
+          "sectors": ["Centro", "Buena Vista", "Pinar Quemado", "Hato Viejo"]
+        },
+        {
+          "name": "Constanza",
+          "sectors": ["Centro", "La Sabina", "Tireo", "El Rio"]
+        }
+      ]
+    },
+    {
+      "name": "San Cristobal",
+      "cities": [
+        {
+          "name": "San Cristobal",
+          "sectors": ["Centro", "Canastica", "Madre Vieja", "Lavapie", "Najayo"]
+        },
+        {
+          "name": "Bajos de Haina",
+          "sectors": ["Haina Arriba", "El Carril", "Quita Sueno", "Kilometro 18"]
+        },
+        {
+          "name": "Yaguate",
+          "sectors": ["Centro", "Nigua", "Dona Ana", "Cambita"]
+        }
+      ]
+    },
+    {
+      "name": "San Pedro de Macoris",
+      "cities": [
+        {
+          "name": "San Pedro de Macoris",
+          "sectors": ["Placer Bonito", "Villa Progreso", "Mexico", "Punta de Garza"]
+        },
+        {
+          "name": "Consuelo",
+          "sectors": ["Centro", "Hato Mayor del Rey", "Batey Aleman", "Matayaya"]
+        }
+      ]
+    },
+    {
+      "name": "La Romana",
+      "cities": [
+        {
+          "name": "La Romana",
+          "sectors": ["Villa Verde", "Quisqueya", "Savica", "Centro", "Caleta"]
+        },
+        {
+          "name": "Guaymate",
+          "sectors": ["Centro", "Batey Lechuga", "Batey Higo Claro", "Las Flores"]
+        }
+      ]
+    },
+    {
+      "name": "La Altagracia",
+      "cities": [
+        {
+          "name": "Higuey",
+          "sectors": ["Centro", "Villa Cerro", "Yuma", "Anamuya", "La Otra Banda"]
+        },
+        {
+          "name": "Punta Cana",
+          "sectors": ["Veron", "Bavaro", "Friusa", "Cocotal", "Cabeza de Toro"]
+        }
+      ]
+    },
+    {
+      "name": "Duarte",
+      "cities": [
+        {
+          "name": "San Francisco de Macoris",
+          "sectors": ["Pueblo Nuevo", "Ensanche Espinola", "Capotillo", "Vista al Valle"]
+        },
+        {
+          "name": "Pimentel",
+          "sectors": ["Centro", "Los Maestros", "La Gina", "La Reforma"]
+        }
+      ]
+    },
+    {
+      "name": "Sanchez Ramirez",
+      "cities": [
+        {
+          "name": "Cotuí",
+          "sectors": ["Centro", "La Cruz", "Pueblo Nuevo", "Los Cocos"]
+        },
+        {
+          "name": "Fantino",
+          "sectors": ["Centro", "Comedero", "Hatonuevo", "Piedra Blanca"]
+        }
+      ]
+    },
+    {
+      "name": "Monseñor Nouel",
+      "cities": [
+        {
+          "name": "Bonao",
+          "sectors": ["Centro", "La Villa", "Juma", "Falconbridge"]
+        },
+        {
+          "name": "Maimon",
+          "sectors": ["Centro", "Los Martinez", "Piedra Blanca", "Arroyo Vuelta"]
+        }
+      ]
+    },
+    {
+      "name": "Peravia",
+      "cities": [
+        {
+          "name": "Bani",
+          "sectors": ["Centro", "Paya", "Santa Rosa", "Las Colinas", "Pizarrete"]
+        },
+        {
+          "name": "Nizao",
+          "sectors": ["Centro", "Boca de Nizao", "Don Gregorio", "Matanzas"]
+        }
+      ]
+    },
+    {
+      "name": "Azua",
+      "cities": [
+        {
+          "name": "Azua de Compostela",
+          "sectors": ["Centro", "La Bombita", "Puerto Viejo", "Las Charcas"]
+        },
+        {
+          "name": "Sabana Yegua",
+          "sectors": ["Centro", "Proyecto 2C", "Proyecto 4", "Las Lomas"]
+        }
+      ]
+    },
+    {
+      "name": "Barahona",
+      "cities": [
+        {
+          "name": "Santa Cruz de Barahona",
+          "sectors": ["Centro", "Punta Palma", "Camboya", "Palmarito"]
+        },
+        {
+          "name": "Vicente Noble",
+          "sectors": ["Centro", "Batey 5", "Las Minas", "Quita Coraza"]
+        }
+      ]
+    },
+    {
+      "name": "Bahoruco",
+      "cities": [
+        {
+          "name": "Neiba",
+          "sectors": ["Centro", "Galvan", "Villa Jaragua", "Los Rios"]
+        },
+        {
+          "name": "Tamayo",
+          "sectors": ["Centro", "Monserrate", "Uvilla", "Mena"]
+        }
+      ]
+    },
+    {
+      "name": "Independencia",
+      "cities": [
+        {
+          "name": "Jimaní",
+          "sectors": ["Centro", "Boca de Cachon", "El Limon", "La Q"]
+        },
+        {
+          "name": "Duverge",
+          "sectors": ["Centro", "Vengan a Ver", "Mella", "Puerto Escondido"]
+        }
+      ]
+    },
+    {
+      "name": "Pedernales",
+      "cities": [
+        {
+          "name": "Pedernales",
+          "sectors": ["Centro", "Nicolas Feliz", "Miramar", "Juancho"]
+        }
+      ]
+    },
+    {
+      "name": "Elías Piña",
+      "cities": [
+        {
+          "name": "Comendador",
+          "sectors": ["Centro", "La Colonia", "Guayabo", "Sabana Larga"]
+        },
+        {
+          "name": "Bánica",
+          "sectors": ["Centro", "Sabana Mula", "Macias", "Hondo Valle"]
+        }
+      ]
+    },
+    {
+      "name": "San Juan",
+      "cities": [
+        {
+          "name": "San Juan de la Maguana",
+          "sectors": ["Centro", "Villa Liberacion", "Corbano Norte", "El Córbano Sur"]
+        },
+        {
+          "name": "Las Matas de Farfan",
+          "sectors": ["Centro", "Carrera de Yeguas", "Matayaya", "Pedro Santana"]
+        }
+      ]
+    },
+    {
+      "name": "San José de Ocoa",
+      "cities": [
+        {
+          "name": "San Jose de Ocoa",
+          "sectors": ["Centro", "El Naranjal", "Sabana Larga", "La Cienaga"]
+        }
+      ]
+    },
+    {
+      "name": "Maria Trinidad Sanchez",
+      "cities": [
+        {
+          "name": "Nagua",
+          "sectors": ["Centro", "San Jose de Villa", "Matancitas", "Rio Mar"]
+        },
+        {
+          "name": "Rio San Juan",
+          "sectors": ["Centro", "Los Cajuiles", "Gri Gri", "La Novilla"]
+        }
+      ]
+    },
+    {
+      "name": "Samaná",
+      "cities": [
+        {
+          "name": "Santa Barbara de Samana",
+          "sectors": ["Centro", "Barrio Nuevo", "Villa Clara", "La Fortaleza"]
+        },
+        {
+          "name": "Las Terrenas",
+          "sectors": ["Pueblo de los Pescadores", "La Ceiba", "Abra Grande", "Coson"]
+        },
+        {
+          "name": "Sanchez",
+          "sectors": ["Centro", "El Catey", "Los Cacaos", "La Javilla"]
+        }
+      ]
+    },
+    {
+      "name": "Hato Mayor",
+      "cities": [
+        {
+          "name": "Hato Mayor del Rey",
+          "sectors": ["Centro", "Los Polanco", "Gualey", "Ondina"]
+        },
+        {
+          "name": "Sabana de la Mar",
+          "sectors": ["Centro", "Catarey", "Majagual", "Arenita"]
+        }
+      ]
+    },
+    {
+      "name": "El Seibo",
+      "cities": [
+        {
+          "name": "Santa Cruz del Seibo",
+          "sectors": ["Centro", "Manicera", "Loma de Chivo", "Villa Guerrero"]
+        },
+        {
+          "name": "Miches",
+          "sectors": ["Centro", "La Gina", "El Cedro", "Sabana de Nisibon"]
+        }
+      ]
+    },
+    {
+      "name": "Monte Plata",
+      "cities": [
+        {
+          "name": "Monte Plata",
+          "sectors": ["Centro", "Borinquen", "Vietnam", "La Unidad"]
+        },
+        {
+          "name": "Yamasa",
+          "sectors": ["Centro", "Peralvillo", "Los Botados", "Don Juan"]
+        }
+      ]
+    },
+    {
+      "name": "Valverde",
+      "cities": [
+        {
+          "name": "Mao",
+          "sectors": ["Centro", "Las 300", "Pueblo Nuevo", "Batey Amina"]
+        },
+        {
+          "name": "Esperanza",
+          "sectors": ["Centro", "Jicomé", "Maizal", "Paradero"]
+        }
+      ]
+    },
+    {
+      "name": "Monte Cristi",
+      "cities": [
+        {
+          "name": "San Fernando de Monte Cristi",
+          "sectors": ["Centro", "El Morro", "Las Matas de Santa Cruz", "Pepillo Salcedo"]
+        },
+        {
+          "name": "Villa Vasquez",
+          "sectors": ["Centro", "Buen Hombre", "Cana Chapeton", "Hatillo Palma"]
+        }
+      ]
+    },
+    {
+      "name": "Dajabon",
+      "cities": [
+        {
+          "name": "Dajabon",
+          "sectors": ["Centro", "La Fe", "Capotillo", "Santiago de la Cruz"]
+        },
+        {
+          "name": "Loma de Cabrera",
+          "sectors": ["Centro", "Aminilla", "Cañongo", "Partido"]
+        }
+      ]
+    },
+    {
+      "name": "Santiago Rodriguez",
+      "cities": [
+        {
+          "name": "San Ignacio de Sabaneta",
+          "sectors": ["Centro", "Cambelen", "San Jose", "La Cidra"]
+        },
+        {
+          "name": "Moncion",
+          "sectors": ["Centro", "El Caimito", "La Caya", "Las Auyamas"]
+        }
+      ]
+    },
+    {
+      "name": "Espaillat",
+      "cities": [
+        {
+          "name": "Moca",
+          "sectors": ["Centro", "Juan Lopito", "Los Lopez", "La Isleta"]
+        },
+        {
+          "name": "Gaspar Hernandez",
+          "sectors": ["Centro", "Joba Arriba", "Veragua", "Yasica"]
+        }
+      ]
+    },
+    {
+      "name": "Hermanas Mirabal",
+      "cities": [
+        {
+          "name": "Salcedo",
+          "sectors": ["Centro", "Los Tomas", "Montellano", "Palo Quemado"]
+        },
+        {
+          "name": "Tenares",
+          "sectors": ["Centro", "Blanco Arriba", "La Joya", "Cenovi"]
+        },
+        {
+          "name": "Villa Tapia",
+          "sectors": ["Centro", "Gurabo", "Los Ranchos", "Bomba de Yaiba"]
+        }
+      ]
+    }
+  ]
+}

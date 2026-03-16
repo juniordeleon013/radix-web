@@ -5,7 +5,29 @@
       "cities": [
         {
           "name": "Santo Domingo de Guzman",
-          "sectors": ["Naco", "Piantini", "Serralles", "Bella Vista", "Gazcue", "Ensanche Julieta"]
+          "sectors": [
+            "Naco",
+            "Piantini",
+            "Serralles",
+            "Paraiso",
+            "Ensanche Julieta",
+            "Evaristo Morales",
+            "Ensanche Quisqueya",
+            "Bella Vista",
+            "Los Cacicazgos",
+            "Mirador Norte",
+            "Mirador Sur",
+            "El Millon",
+            "Los Restauradores",
+            "Ciudad Colonial",
+            "Gazcue",
+            "Ciudad Nueva",
+            "Ensanche Lugo",
+            "San Carlos",
+            "Arroyo Hondo",
+            "Cuesta Hermosa",
+            "Ensanche La Fe"
+          ]
         }
       ]
     },

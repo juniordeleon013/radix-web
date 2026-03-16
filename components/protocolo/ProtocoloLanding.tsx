@@ -232,7 +232,7 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
               },
               {
                 q: "¿El envío tiene costo?",
-                a: "Dentro del Distrito Nacional y Santo Domingo Este el envío es gratuito en zonas aplicables. Los pedidos salen los domingos y se coordinan previamente por WhatsApp. Puedes apartar sin pago previo y pagar al momento de la entrega.",
+                a: "Dentro del Distrito Nacional y Santo Domingo Este el envío es gratuito en zonas aplicables. Los pedidos salen los sábados y se coordinan previamente por WhatsApp. Puedes apartar sin pago previo y pagar al momento de la entrega.",
               },
               {
                 q: "¿Funciona si ya probé otros productos?",

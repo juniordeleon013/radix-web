@@ -140,7 +140,7 @@ export const allProducts: Product[] = [
     detailedInfo: {
       ingredients: "Combo: Minoxidil 5% + Dermaroller profesional 0.5mm",
       benefits: [
-        "Envio Gratuito dentro de Santo Domingo este y Distrito Nacional (Los domingos)",
+        "Envio Gratuito dentro de Santo Domingo este y Distrito Nacional",
         "Máxima efectividad comprobada",
         "Absorción optimizada con micro-needling",
         "Protocolo usado por dermatólogos",
@@ -172,7 +172,7 @@ export const allProducts: Product[] = [
     detailedInfo: {
       ingredients: "Sistema completo: Minoxidil 5% + Dermaroller 0.5mm + Shampoo con Biotina",
       benefits: [
-        "Envio Gratuito dentro de Santo Domingo este y Distrito Nacional (Los domingos)",
+        "Envio Gratuito dentro de Santo Domingo este y Distrito Nacional (Los sábados)",
         "Tratamiento 360° más efectivo",
         "Ataca la caída desde múltiples ángulos",
         "Limpieza + Estimulación + Nutrición",

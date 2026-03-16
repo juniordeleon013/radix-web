@@ -106,7 +106,7 @@ export default function EnviosPage() {
             <ul className="mt-2 text-sm text-amber-900 space-y-1">
               <li>• Puedes apartar tu pedido sin pago previo.</li>
               <li>• El pago se realiza al momento de la entrega.</li>
-              <li>• Los pedidos salen los domingos y se coordinan previamente por WhatsApp.</li>
+              <li>• Los pedidos salen los sábados y se coordinan previamente por WhatsApp.</li>
               <li>• Tambien contamos con envio express disponible con costo adicional (segun zona y horario).</li>
             </ul>
           </section>

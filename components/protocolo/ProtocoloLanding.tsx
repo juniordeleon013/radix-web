@@ -18,7 +18,7 @@ export default function ProtocoloLanding() {
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [extraMinoxidilUnits, setExtraMinoxidilUnits] = useState(0);
   const [activeHeroItem, setActiveHeroItem] = useState(0);
-  const [shippingOption, setShippingOption] = useState<"gratis" | "express">("gratis");
+
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -45,10 +45,11 @@ export default function ProtocoloLanding() {
   const comboTotal = kitCurrentTotal + shampooOfferPrice;
   const comboDiscountTotal = shampooOfferDiscount + extraMinoxidilSavings;
 
+  const freeShippingApplies = kitPrice + extraMinoxidilCost >= 2500;
   const baseTotalWithoutDiscounts =
     dermarollerPrice +
     minoxidilPrice +
-    shippingAverage +
+    (freeShippingApplies ? 0 : shippingAverage) +
     protocolReminderValue +
     personalizedAdvisoryValue;
   const totalWithoutDiscounts = baseTotalWithoutDiscounts + extraMinoxidilUnits * minoxidilPrice;
@@ -79,7 +80,7 @@ Provincia: ${province}
 Referencia: ${referencePoint || "No aplica"}
 Sector: ${sector}
 Telefono WhatsApp: ${phone}
-Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (costo adicional segun zona)"}`;
+Tipo de envio: ${orderTotal >= 2500 ? "Envio gratis (compra >= RD$ 2,500)" : "Envio con costo segun ubicacion"}`;
 
     const waUrl = `https://wa.me/18493408364?text=${encodeURIComponent(message)}`;
     const thankYouUrl = `/protocolo/gracias?wa=${encodeURIComponent(
@@ -232,7 +233,7 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
               },
               {
                 q: "¿El envío tiene costo?",
-                a: "Dentro del Distrito Nacional y Santo Domingo Este el envío es gratuito en zonas aplicables. Los pedidos salen los sábados y se coordinan previamente por WhatsApp. Puedes apartar sin pago previo y pagar al momento de la entrega.",
+                a: (<>Envío gratuito en compras iguales o mayores a <strong>RD$ 2,500</strong>, dentro del <strong>Distrito Nacional</strong> y <strong>Santo Domingo Este</strong> en zonas aplicables. Puedes pagar en efectivo o transferencia a la entrega. <Link href="/protocolo/envios" className="text-radix-primary underline underline-offset-2 font-semibold hover:text-[#0a2f22]">Ver condiciones de envío gratuito</Link></>),
               },
               {
                 q: "¿Funciona si ya probé otros productos?",
@@ -379,19 +380,24 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
               <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
                 <p className="text-emerald-800 font-semibold">Envío gratuito</p>
                 <p className="text-emerald-700 text-sm mt-1">
-                  Distrito Nacional y Santo Domingo Este.
+                  En compras iguales o mayores a <strong>RD$ 2,500</strong>, dentro del <strong>Distrito Nacional</strong> y <strong>Santo Domingo Este</strong>. Paga en efectivo o transferencia a la entrega.
                 </p>
                 <Link
                   href="/protocolo/envios"
                   className="inline-block mt-2 text-sm text-emerald-800 underline underline-offset-2 hover:text-emerald-900 transition-colors"
                 >
-                  Ciertas restricciones aplican
+                  Ver condiciones de envío gratuito
                 </Link>
               </div>
 
-              <div className="mt-6 flex items-end gap-3">
+              <div className="mt-6 flex items-center gap-3 flex-wrap">
                 <p className="text-3xl font-bold text-slate-900">RD$ {kitCurrentTotal.toLocaleString()}</p>
                 <p className="text-lg text-slate-500 line-through">RD$ {totalWithoutDiscounts.toLocaleString()}</p>
+                {kitCurrentTotal >= 2500 && (
+                  <span className="text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-full px-3 py-1">
+                    Envío gratuito aplicado
+                  </span>
+                )}
               </div>
               <p className="mt-2 text-sm font-semibold text-radix-primary">
                 Ahorro estimado actual: RD$ {totalSavings.toLocaleString()}
@@ -407,7 +413,12 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                       • {extraMinoxidilUnits} Minoxidil adicional(es): RD$ {(extraMinoxidilUnits * minoxidilPrice).toLocaleString()} (regular)
                     </li>
                   )}
-                  <li>• Envío promedio: RD$ {shippingAverage.toLocaleString()}</li>
+                  {!freeShippingApplies && (
+                    <li>• Envío promedio: RD$ {shippingAverage.toLocaleString()}</li>
+                  )}
+                  {freeShippingApplies && (
+                    <li className="text-emerald-700 font-medium">• Envío: Gratis (compra ≥ RD$ 2,500)</li>
+                  )}
                   <li>• Recordatorio diario por mensaje: RD$ {protocolReminderValue.toLocaleString()}</li>
                   <li>• Asesoriamiento personalizado: RD$ {personalizedAdvisoryValue.toLocaleString()}</li>
                   <li>• Guía de uso Radix: Incluida sin costo</li>
@@ -584,56 +595,36 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                   </div>
                   <div className="flex items-start justify-between">
                     <span>Envío</span>
-                    <span className="ml-6 max-w-[210px] text-right font-semibold leading-snug">
-                      {shippingOption === "gratis"
+                    <span className={`ml-6 max-w-[210px] text-right font-semibold leading-snug ${orderTotal >= 2500 ? "text-emerald-700" : ""}`}>
+                      {orderTotal >= 2500
                         ? "Gratis"
-                        : "Express (costo adicional segun zona)"}
+                        : "Según ubicación"}
                     </span>
                   </div>
                   <div className="border-t border-slate-200 pt-2 mt-2 flex justify-between text-base font-bold">
                     <span>Total</span>
                     <span>
-                      {shippingOption === "gratis"
+                      {orderTotal >= 2500
                         ? `RD$ ${orderTotal.toLocaleString()}`
-                        : `RD$ ${orderTotal.toLocaleString()} + envio`}
+                        : `RD$ ${orderTotal.toLocaleString()} + envío`}
                     </span>
                   </div>
                 </div>
               </div>
 
               <div>
-                <p className="font-bold text-lg text-slate-900 mb-3">Opciones de envio</p>
-                <div className="space-y-2">
-                  <label className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="shipping-option"
-                        checked={shippingOption === "gratis"}
-                        onChange={() => setShippingOption("gratis")}
-                      />
-                      <span>Envio gratis</span>
-                    </div>
-                    <span className="font-bold">Gratis</span>
-                  </label>
-                  <label className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="shipping-option"
-                        checked={shippingOption === "express"}
-                        onChange={() => setShippingOption("express")}
-                      />
-                      <span>Envio express</span>
-                    </div>
-                    <span className="font-bold text-sm">Costo adicional</span>
-                  </label>
-                  {shippingOption === "express" && (
-                    <p className="text-xs text-slate-500">
-                      * El envio express tiene costo adicional (segun zona).
-                    </p>
-                  )}
-                </div>
+                <p className="font-bold text-lg text-slate-900 mb-3">Envío</p>
+                {orderTotal >= 2500 ? (
+                  <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3">
+                    <p className="font-semibold text-emerald-800">Envío gratuito aplicado</p>
+                    <p className="text-sm text-emerald-700 mt-1">Tu compra es igual o mayor a RD$ 2,500. Aplica en zonas del Distrito Nacional y Santo Domingo Este.</p>
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3">
+                    <p className="font-semibold text-amber-800">Envío con costo según ubicación</p>
+                    <p className="text-sm text-amber-700 mt-1">Tu compra es menor a RD$ 2,500. El costo de envío se coordinará por WhatsApp según tu zona.</p>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-3">
@@ -781,9 +772,9 @@ Tipo de envio: ${shippingOption === "gratis" ? "Envio gratis" : "Envio express (
                   </span>
                   <span className="mt-1 text-[11px] font-medium text-white/85">
                     Total a pagar:{" "}
-                    {shippingOption === "gratis"
+                    {orderTotal >= 2500
                       ? `RD$ ${orderTotal.toLocaleString()}`
-                      : `RD$ ${orderTotal.toLocaleString()} + envio`}
+                      : `RD$ ${orderTotal.toLocaleString()} + envío`}
                   </span>
                 </button>
                 <p className="mt-1 text-center text-[11px] text-slate-500">Paga al Recibir</p>

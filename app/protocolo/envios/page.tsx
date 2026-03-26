@@ -19,8 +19,9 @@ export default function EnviosPage() {
             Restricciones de envio gratuito
           </h1>
           <p className="mt-4 text-slate-600">
-            El envio gratis aplica solo en zonas seleccionadas del Distrito Nacional y Santo
-            Domingo Este. Esta politica puede variar segun disponibilidad operativa.
+            El envio gratis aplica solo para compras iguales o mayores a <strong>RD$ 2,500</strong> y en zonas
+            seleccionadas del <strong>Distrito Nacional</strong> y <strong>Santo Domingo Este</strong>. Esta politica puede variar
+            segun disponibilidad operativa.
           </p>
 
           <section className="mt-8">
@@ -104,10 +105,8 @@ export default function EnviosPage() {
           <section className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-4">
             <h2 className="text-lg font-bold text-amber-900">Condiciones de pago y entrega</h2>
             <ul className="mt-2 text-sm text-amber-900 space-y-1">
-              <li>• Puedes apartar tu pedido sin pago previo.</li>
-              <li>• El pago se realiza al momento de la entrega.</li>
-              <li>• Los pedidos salen los sábados y se coordinan previamente por WhatsApp.</li>
-              <li>• Tambien contamos con envio express disponible con costo adicional (segun zona y horario).</li>
+              <li>• Tiene la opción de pagar en efectivo o transferencia a la entrega.</li>
+              <li>• Envío gratuito en compras igual o mayores a RD$ 2,500.</li>
             </ul>
           </section>
 
